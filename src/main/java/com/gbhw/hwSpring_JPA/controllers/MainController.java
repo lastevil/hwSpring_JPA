@@ -3,6 +3,8 @@ package com.gbhw.hwSpring_JPA.controllers;
 import com.gbhw.hwSpring_JPA.models.Product;
 import com.gbhw.hwSpring_JPA.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,15 +13,22 @@ import java.util.List;
 public class MainController {
     @Autowired
     ProductService productService;
-
+    private Integer pageCount = 0;
     @GetMapping("/products/{id}")
     public @ResponseBody Product getProductById(@PathVariable Long id) {
         return productService.getProductById(id);
     }
 
     @GetMapping("/products")
-    public List<Product> getAllProducts() {
-        return productService.getAllProducts();
+    public List<Product> getAllProducts(@RequestParam("page") Integer page) {
+        PageRequest pageRequest = PageRequest.of(page, 10);
+        Page<Product> productPage = productService.getAllProducts(pageRequest);
+        pageCount = productPage.getTotalPages();
+        return productPage.getContent();
+    }
+    @GetMapping("/getPagesCount")
+    public Integer getPageCount(){
+        return pageCount;
     }
 
     @PostMapping("/products")
@@ -33,7 +42,7 @@ public class MainController {
     }
 
     @GetMapping("/products/findBetween")
-    public List<Product> getProductsBetwen(@RequestParam(defaultValue = "0") Integer min, @RequestParam(defaultValue = "300") Integer max) {
+    public List<Product> getProductsBetween(@RequestParam(defaultValue = "0") Integer min, @RequestParam(defaultValue = "10000000") Integer max) {
         return productService.getProductsBetweenCoast(min, max);
     }
     @GetMapping("/products/minCoast")

@@ -2,10 +2,12 @@ package com.gbhw.hwSpring_JPA.services;
 
 import com.gbhw.hwSpring_JPA.models.Product;
 import com.gbhw.hwSpring_JPA.repositorys.ProductRepository;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Locale;
 
 @Service
 public class ProductService {
@@ -22,14 +24,12 @@ public class ProductService {
         Product a = new Product();
         a.setCoast(coast);
         a.setTitle(title);
-        System.out.println("ПИШЛО - > "+a.getCoast());
         productRepository.save(a);
     }
 
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public Page<Product> getAllProducts(Pageable pageable) {
+        return productRepository.findAll(pageable);
     }
-
     public void deleteProductById(Long id) {
         productRepository.deleteById(id);
     }
