@@ -3,15 +3,13 @@ server:
   servlet:
     context-path: /app
 spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: Qwe123
+    driver-class-name: org.postgresql.Driver
   jpa:
     show-sql: true
     properties:
       hibernate:
-        hbm2ddl:
-          auto: create-drop
-    database: postgres
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: Qwe123
+        dialect: org.hibernate.dialect.PostgreSQLDialect
