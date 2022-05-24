@@ -19,12 +19,12 @@
     <label class="form-label">Фильтр цены</label>
         <form novalidate ng-submit="findBetween()">
             <div class="category" style="display: inline-flex">
-                <input class="form-control" style="margin-left: 5px" type="number" value="1" placeholder="Минимум"
+                <input id="minField" class="form-control" style="margin-left: 5px" type="number" placeholder="Минимум"
                        ng-model="range.min">
-                <input class="form-control" style="margin-left: 5px" type="number" value="100000" placeholder="Максимум"
+                <input id="maxField" class="form-control"  style="margin-left: 5px" type="number" placeholder="Максимум"
                        ng-model="range.max">
                 <button style="margin-left: 5px" type="submit" class="btn btn-primary">Применить</button>
-                <button style="margin-left: 5px" class="btn btn-primary" ng-click="loadCatalog(1)">Oтменить</button>
+                <button style="margin-left: 5px" class="btn btn-primary" ng-click="clearFormMinMax()" type="reset">Oтменить</button>
             </div>
         </form>
 
@@ -36,7 +36,7 @@
             <td></td>
         </tr>
         <tbody>
-        <tr ng-repeat="p in productList">
+        <tr ng-repeat="p in productList.content">
             <td>{{p.title}}</td>
             <td>{{p.coast}}</td>
             <td>
@@ -47,7 +47,7 @@
     </table>
     <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
         <div class="btn-group me-2" role="group" ng-repeat="i in countPage">
-            <button style="margin-left: 2px" type="button" class="btn btn-outline-primary" ng-click="loadCatalog(i)">{{i}}</button>
+            <button style="margin-left: 2px" type="button" class="btn btn-outline-primary" ng-click="setCurrentPage(i)">{{i}}</button>
         </div>
     </div>
 

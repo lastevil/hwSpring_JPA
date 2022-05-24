@@ -1,48 +1,47 @@
 angular.module('app', []).controller('indexController', function ($scope, $http) {
-    const contextPath = 'http://localhost:8189/app';
-    let curentPage = 0;
+    const contextPath = 'http://localhost:8189/app/api/v1';
+    var currentPage = 1;
 
     $scope.loadInitCatalog = function () {
         $http({
             url: contextPath + "/products",
             method: 'GET',
             params: {
-                page: curentPage
+                page: 1
             }
         }).then(function (response) {
             $scope.productList = response.data;
-            $scope.getCountPages();
+            var arr = [];
+            for(var i=0; i<response.data.totalPages;i++){
+                    arr[i]=i+1;
+            }
+            $scope.countPage = arr;
+
         });
     };
 
-    $scope.loadCatalog = function (page) {
-        curentPage = page;
-        page = page - 1;
+    $scope.loadCatalog = function (page,min,max) {
+        currentPage = page;
         $http({
             url: contextPath + "/products",
             method: 'GET',
             params: {
-                page: page
+                page: page,
+                min : min,
+                max : max
             }
         }).then(function (response) {
             $scope.productList = response.data;
+            var arr = [];
+            for(var i=0; i<response.data.totalPages;i++){
+                arr[i]=i+1;
+            }
+            $scope.countPage = arr;
         });
     };
 
-    $scope.getCountPages = function () {
-        $http.get(contextPath + '/getPagesCount')
-            .then(function (response) {
-                var pageCount=[];
-                for (let i=0;i<response.data;i++){
-                    pageCount[i]=i+1;
-                }
-                $scope.countPage = pageCount;
-
-            });
-    };
-
     $scope.deleteProduct = function (productId) {
-        $http.get(contextPath + '/products/delete/' + productId)
+        $http.delete(contextPath + '/products/' + productId)
             .then(function (response) {
                 $scope.loadCatalog();
             });
@@ -62,17 +61,23 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
     }
 
     $scope.findBetween = function () {
-        $http({
-            url: contextPath + "/products/findBetween",
-            method: 'GET',
-            params: {
-                max: $scope.range.max,
-                min: $scope.range.min
-            }
-        }).then(function (response) {
-            $scope.productList = response.data;
-            console.info(response.data);
-        });
+        $scope.loadCatalog(currentPage, $scope.range.min, $scope.range.max);
+    };
+
+    $scope.clearFormMinMax = function (){
+        $scope.range.max=null;
+        $scope.range.min=null;
+        $scope.loadInitCatalog();
+    }
+
+    $scope.setCurrentPage = function (i){
+        currentPage = i;
+        if ($scope.range.min!=null || $scope.range.max!=null){
+            $scope.findBetween();
+        }
+        else {
+            $scope.loadCatalog(currentPage);
+        }
     };
 
     $scope.loadInitCatalog();
