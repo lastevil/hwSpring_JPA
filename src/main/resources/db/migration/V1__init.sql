@@ -1,3 +1,3 @@
 CREATE TABLE IF NOT EXISTS products (id bigserial, title VARCHAR(255), coast integer, PRIMARY KEY (id));
 CREATE TABLE IF NOT EXISTS users (id bigserial, login VARCHAR(255), password integer, role VARCHAR(255), PRIMARY KEY (id));
-CREATE TABLE IF NOT EXISTS orders (id bigserial, user_id integer, product_id integer,status VARCHAR(255),order_time TIME,PRIMARY KEY (id), FOREIGN KEY (user_id) REFERENCES users(id), FOREIGN KEY (product_id) REFERENCES products(id));
+CREATE TABLE IF NOT EXISTS orders (id bigserial, user_id integer, product_id integer,fix_coast integer, status VARCHAR(255), order_time TIME, PRIMARY KEY (id), FOREIGN KEY (user_id) REFERENCES users(id), FOREIGN KEY (product_id) REFERENCES products(id));

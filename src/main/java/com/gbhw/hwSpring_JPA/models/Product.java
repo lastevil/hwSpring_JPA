@@ -5,9 +5,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "products")
 public class Product {
@@ -19,6 +21,12 @@ public class Product {
     private String title;
     @Column(name = "coast")
     private Integer coast;
-    public Product(String title, Integer coast) {
+
+    @ManyToOne
+    @JoinTable(name = "orders")
+    @JoinColumn (name = "product_id")
+    private Order order;
+
+    public Product(Long id, String title, Integer coast) {
     }
 }
