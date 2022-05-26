@@ -73,8 +73,9 @@ public class ProductService {
         if (orderList.isEmpty()) {
             return productList;
         }
-        productList = productRepository.findAllById(orderList).stream().map(productConverter::entityToDto).collect(Collectors.toList());
-        log.debug(productList.toString());
+        for (Long i:orderList) {
+            productList.add(productConverter.entityToDto(productRepository.findById(i).orElseThrow()));
+        }
         return productList;
     }
 }

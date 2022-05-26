@@ -28,5 +28,8 @@ public class Product {
     private Order order;
 
     public Product(Long id, String title, Integer coast) {
+        this.id= id;
+        this.title=title;
+        this.coast=coast;
     }
 }

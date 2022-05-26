@@ -4,6 +4,7 @@ import com.gbhw.hwSpring_JPA.converters.ProductConverter;
 import com.gbhw.hwSpring_JPA.dto.OrderDto;
 import com.gbhw.hwSpring_JPA.dto.ProductDto;
 import com.gbhw.hwSpring_JPA.models.Order;
+import com.gbhw.hwSpring_JPA.models.Product;
 import com.gbhw.hwSpring_JPA.repositorys.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,8 @@ public class OrderService {
     public void toCart(Long user_id, Long product_id) {
         Order order = new Order(user_id,"in_cart");
         ProductDto productDto = productService.getProductById(product_id);
-        order.addProduct(productConverter.dtoToEntity(productDto));
+        Product product = productConverter.dtoToEntity(productDto);
+        order.addProduct(product);
         orderRepository.save(order);
     }
 
@@ -48,9 +50,13 @@ public class OrderService {
     }
 
     public void deleteProductFromCart(Long user_id, Long product_id){
-        orderRepository.getProductInCart(user_id,product_id,"in_cart");
+        Order order = new Order(user_id,"in_cart");
+        order.removeProduct(productConverter.dtoToEntity(productService.getProductById(product_id)));
+        orderRepository.delete(order);
     }
-    public void deleteProductListFromCart(Long user_id){
-        orderRepository.getAllProductInCart(user_id,"in_cart");
+    public void deleteProductListFromCart(Long user_id, Long product_id){
+        Order order = new Order(user_id,"in_cart");
+        order.removeProduct(productConverter.dtoToEntity(productService.getProductById(product_id)));
+        orderRepository.delete(order);
     }
 }

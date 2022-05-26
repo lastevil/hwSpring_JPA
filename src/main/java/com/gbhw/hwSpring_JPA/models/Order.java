@@ -22,11 +22,10 @@ public class Order {
     @Column(name = "user_id")
     private Long user_id;
 
-    // @Column(name = "product_id" insert="false" update="false")
-    // private Long product_id;
-
     @Column(name = "fix_coast")
     private Integer fix_coast;
+    @Column(name = "product_id")
+    private Long product_id;
     @Column(name = "status")
     private String status;
     @OneToMany(mappedBy = "order")
@@ -39,6 +38,7 @@ public class Order {
 
     public void addProduct(Product product){
         productList.add(product);
+        this.product_id=product.getId();
         product.setOrder(this);
     }
 

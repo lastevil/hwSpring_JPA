@@ -66,9 +66,9 @@ public class MainController {
     public void delFromCart(@PathVariable Long productId) {
         orderService.deleteProductFromCart(tempUserId,productId);
     }
-    @DeleteMapping("/cartdeleteall")
-    public void delAllFromCart() {
-        orderService.deleteProductListFromCart(tempUserId);
+    @DeleteMapping("/cartdelall/{productId}")
+    public void delAllFromCart(Long productId) {
+        orderService.deleteProductListFromCart(tempUserId,productId);
     }
 }
 

@@ -28,7 +28,7 @@ angular.module('app', []).controller('cartController', function ($scope, $http) 
     };
 
     $scope.AllFromCart = function (productId){
-        $http.delete(contextPath + '/products/cartdeleteall' + productId)
+        $http.delete(contextPath + '/products/cartdelall/' + productId)
             .then(function (response) {
                 $scope.loadCart();
             })
