@@ -22,7 +22,7 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
                 arr[i] = i + 1;
             }
             $scope.countPage = arr;
-            $scope.getCartProductCount();
+            $scope.getCartCount();
         });
     };
 
@@ -62,18 +62,56 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
     };
 
     $scope.toCart = function (productId) {
-        $http.post(contextPath + '/products/cart/'+ productId)
+        $http.post(contextPath + '/cart/'+ productId)
             .then(function (response) {
                 $scope.loadCatalog(currentPage);
             })
     };
 
-    $scope.getCartProductCount = function () {
-        $http.get(contextPath + '/products/cart')
+    $scope.getCartCount = function () {
+        $http.get(contextPath + '/cart/count')
             .then(function (response) {
-                $scope.cart = response.data;
+                $scope.cartCount = response.data;
             });
     }
+    
+    $scope.tryToAuth = function () {
+        $http.post('http://localhost:8189/app/api/auth', $scope.user)
+            .then(function successCallback(response) {
+                if (response.data.token) {
+                    $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
+                    $localStorage.springWebUser = {username: $scope.user.username, token: response.data.token};
+
+                    $scope.user.username = null;
+                    $scope.user.password = null;
+                }
+            }, function errorCallback(response) {
+
+            });
+    };
+
+    $scope.tryToLogout = function () {
+        $scope.clearUser();
+        if ($scope.user.username) {
+            $scope.user.username = null;
+        }
+        if ($scope.user.password) {
+            $scope.user.password = null;
+        }
+    };
+
+    $scope.clearUser = function () {
+        delete $localStorage.springWebUser;
+        $http.defaults.headers.common.Authorization = '';
+    };
+
+    $rootScope.isUserLoggedIn = function () {
+        if ($localStorage.springWebUser) {
+            return true;
+        } else {
+            return false;
+        }
+    };
 
     $scope.loadCatalog(currentPage);
 

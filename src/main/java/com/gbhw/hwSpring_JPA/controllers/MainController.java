@@ -17,9 +17,9 @@ import java.util.List;
 @Slf4j
 public class MainController {
 
-    private Long tempUserId = 1l;//Временно для пользователя с id = 1
+
     private final ProductService productService;
-    private final OrderService orderService;
+
 
     @GetMapping("/{id}")
     public @ResponseBody ProductDto getProductById(@PathVariable Long id) {
@@ -50,25 +50,6 @@ public class MainController {
     @DeleteMapping("/{id}")
     public void deleteProductById(@PathVariable Long id) {
         productService.deleteProductById(id);
-    }
-
-    //------------------------------CART------------------------------//
-
-    @GetMapping("/cart")
-    public @ResponseBody List<OrderDto> getProductListInCartById() {
-        return orderService.getCartList(tempUserId);
-    }
-    @PostMapping("/cart/{productId}")
-    public void toCart(@PathVariable Long productId) {
-        orderService.toCart(tempUserId,productId);
-    }
-    @DeleteMapping("/cart/{productId}")
-    public void delFromCart(@PathVariable Long productId) {
-        orderService.deleteProductFromCart(tempUserId,productId);
-    }
-    @DeleteMapping("/cartdelall/{productId}")
-    public void delAllFromCart(Long productId) {
-        orderService.deleteProductListFromCart(tempUserId,productId);
     }
 }
 
