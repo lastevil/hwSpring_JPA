@@ -1,18 +1,14 @@
 package com.gbhw.hwSpring_JPA.converters;
 
 import com.gbhw.hwSpring_JPA.dto.ProductDto;
-import com.gbhw.hwSpring_JPA.models.Product;
-import org.mapstruct.InheritInverseConfiguration;
+import com.gbhw.hwSpring_JPA.entitys.Product;
+import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-import org.springframework.data.domain.Page;
-
-// @Mapper - с этой аннотацией ошибка
+@Mapper(componentModel = "spring")
 public interface ProductMapper {
     ProductMapper MAPPER = Mappers.getMapper(ProductMapper.class);
-    @InheritInverseConfiguration
-    public Product toProduct(ProductDto productDto);
 
-    public ProductDto fromProduct(Product product);
+    Product toProduct(ProductDto productDto);
 
-   public Page<ProductDto> fromProductPage(Page<Product> productPage);
+    ProductDto toProductDTO(Product product);
 }

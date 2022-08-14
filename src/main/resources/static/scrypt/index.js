@@ -1,5 +1,5 @@
-angular.module('app', []).controller('indexController', function ($scope, $http) {
-    const contextPath = 'http://localhost:8189/app/api/v1';
+angular.module('app', []).controller('indexController', function ($scope, $http, $rootScope) {
+    const contextPath = 'http://localhost:8189/app/api/v1/products';
     let currentPage = 1;
     let lastPage = 0;
     let filterOn = false;
@@ -7,7 +7,7 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
     $scope.loadCatalog = function (page, min, max) {
         currentPage = page;
         $http({
-            url: contextPath + "/products",
+            url: contextPath,
             method: 'GET',
             params: {
                 page: page,
@@ -27,18 +27,18 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
     };
 
     $scope.deleteProduct = function (productId) {
-        $http.delete(contextPath + '/products/' + productId)
+        $http.delete(contextPath + '/' + productId)
             .then(function (response) {
                 $scope.loadCatalog(lastPage);
             });
     };
 
     $scope.newProduct = function () {
-        $http.post(contextPath + '/products/', $scope.newProd)
+        $http.post(contextPath, $scope.newProd)
             .then(function (response) {
                 $scope.loadCatalog(lastPage);
             });
-    }
+    };
 
     $scope.findBetween = function () {
         filterOn = true;
@@ -50,7 +50,7 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
         $scope.range.max = null;
         $scope.range.min = null;
         $scope.loadCatalog(1);
-    }
+    };
 
     $scope.setCurrentPage = function (i) {
         currentPage = i;
@@ -62,31 +62,30 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
     };
 
     $scope.toCart = function (productId) {
-        $http.post(contextPath + '/cart/'+ productId)
+        $http.post('http://localhost:8189/app/api/v1/cart/'+ productId, localStorage.cartName)
             .then(function (response) {
                 $scope.loadCatalog(currentPage);
-            })
+            });
     };
 
     $scope.getCartCount = function () {
-        $http.get(contextPath + '/cart/count')
+        $http.post('http://localhost:8189/app/api/v1/cart/productCount/', localStorage.cartName)
             .then(function (response) {
                 $scope.cartCount = response.data;
             });
-    }
-    
+    };
+
     $scope.tryToAuth = function () {
-        $http.post('http://localhost:8189/app/api/auth', $scope.user)
+        $http.post('http://localhost:8189/app/api/v1/auth', $scope.user)
             .then(function successCallback(response) {
                 if (response.data.token) {
-                    $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
-                    $localStorage.springWebUser = {username: $scope.user.username, token: response.data.token};
-
+                    localStorage.springWebUser = $scope.user.username;
+                    localStorage.springToken = response.data.token;
                     $scope.user.username = null;
                     $scope.user.password = null;
                 }
-            }, function errorCallback(response) {
-
+                $scope.loadCatalog(currentPage);
+                $scope.getCartCount();
             });
     };
 
@@ -101,18 +100,28 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
     };
 
     $scope.clearUser = function () {
-        delete $localStorage.springWebUser;
+        delete localStorage.springWebUser;
         $http.defaults.headers.common.Authorization = '';
+        localStorage.cartName ="cart_" + (Math.random() * 100);
+        $scope.loadCatalog(currentPage);
+        $scope.getCartCount();
     };
 
     $rootScope.isUserLoggedIn = function () {
-        if ($localStorage.springWebUser) {
+        if (localStorage.springWebUser) {
             return true;
         } else {
             return false;
         }
     };
 
+    if(!localStorage.cartName){
+        localStorage.cartName = "cart_" + (Math.random() * 100);
+    }
+    if (localStorage.springWebUser) {
+        $http.defaults.headers.common.Authorization = 'Bearer ' + localStorage.springToken;
+        localStorage.cartName = "cart_" + localStorage.springWebUser;
+    }
     $scope.loadCatalog(currentPage);
-
+    $scope.getCartCount();
 });

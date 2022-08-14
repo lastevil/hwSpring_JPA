@@ -1,12 +1,11 @@
 package com.gbhw.hwSpring_JPA.controllers;
 
-import com.gbhw.hwSpring_JPA.dto.JwtRequest;
-import com.gbhw.hwSpring_JPA.dto.JwtResponse;
+import com.gbhw.hwSpring_JPA.dto.jwt.JwtRequest;
+import com.gbhw.hwSpring_JPA.dto.jwt.JwtResponse;
 import com.gbhw.hwSpring_JPA.dto.UserDto;
 import com.gbhw.hwSpring_JPA.dto.exceptions.AppError;
 import com.gbhw.hwSpring_JPA.services.UserService;
 import com.gbhw.hwSpring_JPA.utils.JwtTokenUtil;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +15,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class AuthController {
     private final UserService userService;

@@ -1,11 +1,10 @@
-package com.gbhw.hwSpring_JPA.models;
+package com.gbhw.hwSpring_JPA.entitys;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @NoArgsConstructor

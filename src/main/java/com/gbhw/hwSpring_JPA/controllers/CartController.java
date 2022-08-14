@@ -1,46 +1,45 @@
 package com.gbhw.hwSpring_JPA.controllers;
 
-import com.gbhw.hwSpring_JPA.dto.CartDto;
+import com.gbhw.hwSpring_JPA.models.Cart;
 import com.gbhw.hwSpring_JPA.services.CartService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/cart")
 @RequiredArgsConstructor
 @Slf4j
 public class CartController {
-    private final CartService cartService;
+    private final CartService service;
 
-    @GetMapping("")
-    public @ResponseBody List<CartDto> getProductListInCartById() {
-        return cartService.getCartList();
-    }
-    @GetMapping("/count")
-    public @ResponseBody Integer getCartCount() {
-        return cartService.getCartCount();
+    @PostMapping
+    public Cart getCurrentCart(@RequestBody String cartName) {
+        return service.getCurrentCart(cartName);
     }
 
-    @GetMapping("/sum")
-    public Integer getCartSum() {
-        return cartService.getCartSum();
+    @PostMapping("/{id}")
+    public void addProduct(@PathVariable Long id, @RequestBody String cartName) {
+        service.addProductByIdToCart(id, cartName);
     }
 
-    @PostMapping("/{productId}")
-    public void toCart(@PathVariable Long productId) {
-        cartService.toCart(productId);
+    @PostMapping("/remove/{id}")
+    public void removeProduct(@PathVariable Long id, @RequestBody String cartName) {
+        service.removeOneProductByIdFromCart(id, cartName);
     }
 
-    @DeleteMapping("/{productId}")
-    public void delFromCart(@PathVariable Long productId) {
-        cartService.deleteProductFromCart(productId);
+    @PostMapping("/removeAll/{id}")
+    public void removeAllProduct(@PathVariable Long id, @RequestBody String cartName) {
+        service.removeAllProductByIdFromCart(id, cartName);
     }
 
-    @DeleteMapping("/delAll/{productId}")
-    public void deleteAllFromCartById(@PathVariable Long productId) {
-        cartService.deleteProductListFromCart(productId);
+    @PostMapping("/clear")
+    public void clearCart(@RequestBody String cartName) {
+        service.clearCart(cartName);
+    }
+
+    @PostMapping("/productCount")
+    public Integer getProductCountInCart(@RequestBody String cartName) {
+        return service.getCurrentCart(cartName).getTotalProductsCount();
     }
 }

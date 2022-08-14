@@ -10,7 +10,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.11/ngStorage.min.js"></script>
     <script src="scrypt/index.js"></script>
-
     <title>Каталог продуктов</title>
 </head>
 <body>
@@ -41,7 +40,6 @@
         </div>
     </nav>
 
-
     <h3>Каталог продуктов</h3>
     <label class="form-label">Фильтр цены</label>
     <form novalidate ng-submit="findBetween()">
@@ -58,7 +56,7 @@
     </form>
 
     <br>
-    <table class="table table-hover" cellpadding="0" cellspacing="0">
+    <table class="table table-hover">
         <tr>
             <td>Продукт</td>
             <td>Цена</td>
@@ -77,9 +75,7 @@
         </tr>
         </tbody>
     </table>
-    <a href="cart.html">
-        <button class="btn btn-primary" ng-click="goToCart()">В корзине ({{cartCount}})</button>
-    </a>
+
     <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
         <div class="btn-group me-2" role="group" ng-repeat="i in countPage">
             <button style="margin-left: 2px" type="button" class="btn btn-outline-primary" ng-click="setCurrentPage(i)">
@@ -87,8 +83,12 @@
             </button>
         </div>
     </div>
-
-    <label>Добавить продукт</label>
+    <p></p>
+    <a href="cart.html">
+        <button class="btn btn-primary" ng-click="goToCart()">В корзине ({{cartCount}})</button>
+    </a>
+    <p>
+        <label>Добавить продукт</label>
     <form novalidate ng-submit="newProduct()">
         <div class="category" style="display: inline-flex">
             <input class="form-control" type="text" placeholder="Название" ng-model="newProd.title">

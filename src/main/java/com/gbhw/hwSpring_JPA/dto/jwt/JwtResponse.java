@@ -1,4 +1,4 @@
-package com.gbhw.hwSpring_JPA.dto;
+package com.gbhw.hwSpring_JPA.dto.jwt;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,8 +1,8 @@
 package com.gbhw.hwSpring_JPA.services;
 
 import com.gbhw.hwSpring_JPA.dto.UserDto;
-import com.gbhw.hwSpring_JPA.models.Role;
-import com.gbhw.hwSpring_JPA.models.User;
+import com.gbhw.hwSpring_JPA.entitys.Role;
+import com.gbhw.hwSpring_JPA.entitys.User;
 import com.gbhw.hwSpring_JPA.repositorys.RoleRepository;
 import com.gbhw.hwSpring_JPA.repositorys.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,9 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Optional;
 import java.util.stream.Collectors;
 

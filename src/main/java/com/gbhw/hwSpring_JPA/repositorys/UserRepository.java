@@ -1,6 +1,6 @@
 package com.gbhw.hwSpring_JPA.repositorys;
 
-import com.gbhw.hwSpring_JPA.models.User;
+import com.gbhw.hwSpring_JPA.entitys.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

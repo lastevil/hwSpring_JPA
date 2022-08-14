@@ -1,7 +1,6 @@
 package com.gbhw.hwSpring_JPA.configurations;
 
 import com.gbhw.hwSpring_JPA.configurations.filters.JwtRequestFilter;
-import com.gbhw.hwSpring_JPA.dto.JwtRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
@@ -25,8 +24,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/v1/cart").authenticated()
-                .antMatchers("/api/v1/products").authenticated()
+                .antMatchers("/api/v1/orders").authenticated()
+                .antMatchers("/api/v1/administrator/*").hasRole("ADMIN")
                 .anyRequest().permitAll()
                 .and()
                 .headers().frameOptions().disable()

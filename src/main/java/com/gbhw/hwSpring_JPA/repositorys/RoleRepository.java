@@ -1,7 +1,7 @@
 package com.gbhw.hwSpring_JPA.repositorys;
 
 
-import com.gbhw.hwSpring_JPA.models.Role;
+import com.gbhw.hwSpring_JPA.entitys.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

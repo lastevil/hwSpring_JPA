@@ -1,10 +1,10 @@
 package com.gbhw.hwSpring_JPA.services;
 
-import com.gbhw.hwSpring_JPA.converters.ProductConverter;
+import com.gbhw.hwSpring_JPA.converters.ProductMapper;
 import com.gbhw.hwSpring_JPA.dto.OrderDto;
 import com.gbhw.hwSpring_JPA.dto.ProductDto;
-import com.gbhw.hwSpring_JPA.models.Order;
-import com.gbhw.hwSpring_JPA.models.Product;
+import com.gbhw.hwSpring_JPA.entitys.Order;
+import com.gbhw.hwSpring_JPA.entitys.Product;
 import com.gbhw.hwSpring_JPA.repositorys.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,12 +21,12 @@ public class OrderService {
     private final ProductService productService;
     private final OrderRepository orderRepository;
 
-    private final ProductConverter productConverter;
+    private final ProductMapper productConverter;
 
     public void toCart(Long user_id, Long product_id) {
         Order order = new Order(user_id,"in_cart");
         ProductDto productDto = productService.getProductById(product_id);
-        Product product = productConverter.dtoToEntity(productDto);
+        Product product = productConverter.toProduct(productDto);
         order.addProduct(product);
         orderRepository.save(order);
     }
@@ -51,12 +51,12 @@ public class OrderService {
 
     public void deleteProductFromCart(Long user_id, Long product_id){
         Order order = new Order(user_id,"in_cart");
-        order.removeProduct(productConverter.dtoToEntity(productService.getProductById(product_id)));
+        order.removeProduct(productConverter.toProduct(productService.getProductById(product_id)));
         orderRepository.delete(order);
     }
     public void deleteProductListFromCart(Long user_id, Long product_id){
         Order order = new Order(user_id,"in_cart");
-        order.removeProduct(productConverter.dtoToEntity(productService.getProductById(product_id)));
+        order.removeProduct(productConverter.toProduct(productService.getProductById(product_id)));
         orderRepository.delete(order);
     }
 }

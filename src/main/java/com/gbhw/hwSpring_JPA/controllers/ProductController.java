@@ -1,25 +1,18 @@
 package com.gbhw.hwSpring_JPA.controllers;
 
-import com.gbhw.hwSpring_JPA.dto.OrderDto;
 import com.gbhw.hwSpring_JPA.dto.ProductDto;
-import com.gbhw.hwSpring_JPA.services.OrderService;
 import com.gbhw.hwSpring_JPA.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
 @Slf4j
-public class MainController {
-
-
+public class ProductController {
     private final ProductService productService;
-
 
     @GetMapping("/{id}")
     public @ResponseBody ProductDto getProductById(@PathVariable Long id) {
@@ -28,8 +21,8 @@ public class MainController {
 
     @GetMapping()
     public Page<ProductDto> getAllProducts(@RequestParam(name = "page", defaultValue = "1") Integer page,
-                                        @RequestParam(name = "min", required = false) Integer min,
-                                        @RequestParam(name = "max", required = false) Integer max) {
+                                           @RequestParam(name = "min", required = false) Integer min,
+                                           @RequestParam(name = "max", required = false) Integer max) {
         if (page < 1) {
             page = 1;
         }

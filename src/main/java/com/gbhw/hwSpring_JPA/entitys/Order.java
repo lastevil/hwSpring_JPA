@@ -1,6 +1,5 @@
-package com.gbhw.hwSpring_JPA.models;
+package com.gbhw.hwSpring_JPA.entitys;
 
-import com.gbhw.hwSpring_JPA.dto.ProductDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

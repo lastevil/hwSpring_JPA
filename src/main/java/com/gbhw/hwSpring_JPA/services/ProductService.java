@@ -1,9 +1,9 @@
 package com.gbhw.hwSpring_JPA.services;
 
-import com.gbhw.hwSpring_JPA.converters.ProductConverter;
+import com.gbhw.hwSpring_JPA.converters.ProductMapper;
 import com.gbhw.hwSpring_JPA.dto.ProductDto;
 import com.gbhw.hwSpring_JPA.dto.exceptions.ValidateException;
-import com.gbhw.hwSpring_JPA.models.Product;
+import com.gbhw.hwSpring_JPA.entitys.Product;
 import com.gbhw.hwSpring_JPA.repositorys.ProductRepository;
 import com.gbhw.hwSpring_JPA.repositorys.specification.ProductSpecification;
 import com.gbhw.hwSpring_JPA.validators.ProductValidator;
@@ -17,24 +17,24 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class ProductService {
     private final ProductRepository productRepository;
-    private final ProductConverter productConverter;
+    private final ProductMapper productMapper;
     private final ProductValidator productValidator;
 
     public ProductDto getProductById(Long id) {
-        return productRepository.findById(id).map(productConverter::entityToDto).orElseThrow();
+        Product p = productRepository.findById(id).orElseThrow();
+        return productMapper.toProductDTO(p);
     }
 
     @Transactional
     public void addProduct(ProductDto productDto) {
         productValidator.validate(productDto);
-        Product a = productConverter.dtoToEntity(productDto);
+        Product a = productMapper.toProduct(productDto);
         productRepository.save(a);
     }
 
@@ -50,10 +50,8 @@ public class ProductService {
         if (max != null) {
             productSpecification = productSpecification.and(ProductSpecification.coastLessThenOrElseThen(max));
         }
-        //Возвращает Null в полях объектов
-        //return productRepository.findAll(productSpecification,PageRequest.of(page-1,10)).map(ProductMapper.MAPPER::fromProduct);
-        return productRepository.findAll(productSpecification, PageRequest.of(page - 1, 10))
-                .map((productConverter::entityToDto));
+            return productRepository.findAll(productSpecification, PageRequest.of(page - 1, 10))
+                .map(productMapper::toProductDTO);
     }
 
     @Transactional
@@ -74,7 +72,7 @@ public class ProductService {
             return productList;
         }
         for (Long i:orderList) {
-            productList.add(productConverter.entityToDto(productRepository.findById(i).orElseThrow()));
+            productList.add(productMapper.toProductDTO(productRepository.findById(i).orElseThrow()));
         }
         return productList;
     }

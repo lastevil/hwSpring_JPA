@@ -1,4 +1,4 @@
-package com.gbhw.hwSpring_JPA.models;
+package com.gbhw.hwSpring_JPA.entitys;
 
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
