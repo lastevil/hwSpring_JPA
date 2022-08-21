@@ -1,0 +1,58 @@
+<h3>Каталог продуктов</h3>
+<label class="form-label">Фильтр цены</label>
+<form novalidate ng-submit="findBetween()">
+    <div class="category" style="display: inline-flex">
+        <input id="minField" class="form-control" style="margin-left: 5px" type="number" placeholder="Минимум"
+               ng-model="range.min">
+        <input id="maxField" class="form-control" style="margin-left: 5px" type="number" placeholder="Максимум"
+               ng-model="range.max">
+        <button style="margin-left: 5px" type="submit" class="btn btn-primary">Применить</button>
+        <button style="margin-left: 5px" class="btn btn-primary" ng-click="clearFormMinMax()" type="reset">
+            Oтменить
+        </button>
+    </div>
+</form>
+
+<br>
+<table class="table table-hover">
+    <tr>
+        <td>Продукт</td>
+        <td>Цена</td>
+        <td></td>
+    </tr>
+    <tbody>
+    <tr ng-repeat="p in productList.content">
+        <td>{{p.title}}</td>
+        <td>{{p.coast}}</td>
+        <td>
+            <button class="btn btn-primary" ng-click="toCart(p.id)">В корзину</button>
+        </td>
+        <td>
+            <button class="btn btn-danger" ng-click="deleteProduct(p.id)">Удалить</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+    <div class="btn-group me-2" role="group" ng-repeat="i in countPage">
+        <button style="margin-left: 2px" type="button" class="btn btn-outline-primary" ng-click="setCurrentPage(i)">
+            {{i}}
+        </button>
+    </div>
+</div>
+<p></p>
+<a href="html/cart.html">
+    <button class="btn btn-primary" ng-click="goToCart()">В корзине ({{cartCount}})</button>
+</a>
+<p>
+    <label>Добавить продукт</label>
+<form novalidate ng-submit="newProduct()">
+    <div class="category" style="display: inline-flex">
+        <input class="form-control" type="text" placeholder="Название" ng-model="newProd.title">
+        <input style="margin-left: 5px" class="form-control" type="number" placeholder="Цена"
+               ng-model="newProd.coast">
+        <button style="margin-left: 5px" type="submit" class="btn btn-primary" type="reset">Добавить</button>
+    </div>
+    <p>
+</form>

@@ -17,7 +17,7 @@ public class Cart {
     private List<OrderItemDto> products;
 
     private Integer totalProductsCount;
-    private Integer totalCoast;
+    private Integer totalPrice;
     private static final int DELTA_UP = 1;
     private static final int DELTA_DOWN = -1;
 
@@ -29,14 +29,14 @@ public class Cart {
         Cart cart = cacheManager.getCache("Cart").get(cartName, Cart.class);
         if (Optional.ofNullable(cart).isPresent()) {
             this.products = cart.getProducts();
-            this.totalCoast = cart.getTotalCoast();
+            this.totalPrice = cart.getTotalPrice();
             totalProductsCount = 0;
             for (OrderItemDto o:products){
                 totalProductsCount+=o.getQuantity();
             }
         } else {
             this.products = new ArrayList<>();
-            this.totalCoast = 0;
+            this.totalPrice = 0;
             this.totalProductsCount = 0;
             cacheManager.getCache("Cart").put(cartName, Cart.class);
         }
@@ -81,15 +81,15 @@ public class Cart {
 
     public void clear() {
         products.clear();
-        totalCoast = 0;
+        totalPrice = 0;
         totalProductsCount = 0;
     }
 
     private void recalculate() {
-        totalCoast = 0;
+        totalPrice = 0;
         totalProductsCount = 0;
         for (OrderItemDto o : products) {
-            totalCoast += o.getCoast();
+            totalPrice += o.getPrice();
         }
         for (OrderItemDto o:products){
             totalProductsCount+=o.getQuantity();

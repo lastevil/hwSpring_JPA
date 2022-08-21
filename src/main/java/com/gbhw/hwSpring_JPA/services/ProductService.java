@@ -2,6 +2,7 @@ package com.gbhw.hwSpring_JPA.services;
 
 import com.gbhw.hwSpring_JPA.converters.ProductMapper;
 import com.gbhw.hwSpring_JPA.dto.ProductDto;
+import com.gbhw.hwSpring_JPA.dto.exceptions.ResourceNotFoundException;
 import com.gbhw.hwSpring_JPA.dto.exceptions.ValidateException;
 import com.gbhw.hwSpring_JPA.entitys.Product;
 import com.gbhw.hwSpring_JPA.repositorys.ProductRepository;
@@ -27,7 +28,7 @@ public class ProductService {
     private final ProductValidator productValidator;
 
     public ProductDto getProductById(Long id) {
-        Product p = productRepository.findById(id).orElseThrow();
+        Product p = productRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Продукт не найден"));
         return productMapper.toProductDTO(p);
     }
 
@@ -61,11 +62,10 @@ public class ProductService {
         }
         productValidator.validate(productDto);
         Product product = productRepository.getById(productDto.getId());
-        product.setCoast(productDto.getCoast());
+        product.setPrice(productDto.getPrice());
         product.setTitle(product.getTitle());
 
     }
-    //Вопрос: к какому сервису это относится?
     public List<ProductDto> getProductDTOList(List<Long> orderList) {
         List<ProductDto> productList = new ArrayList<>();
         if (orderList.isEmpty()) {

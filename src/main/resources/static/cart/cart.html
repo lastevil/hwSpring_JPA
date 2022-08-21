@@ -1,18 +1,3 @@
-<!DOCTYPE html>
-
-<html ng-app="app">
-
-<head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
-    <script src="scrypt/cart.js"></script>
-    <title>Моя корзина</title>
-</head>
-<body>
 <div class="container" ng-controller="cartController">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -49,13 +34,13 @@
         <tbody>
         <tr ng-repeat="p in productList.products">
             <td>{{p.title}}</td>
-            <td>{{p.coastPerProduct}}</td>
+            <td>{{p.pricePerProduct}}</td>
             <td>
                 <button class="btn btn-primary" ng-click="fromCart(p.productId)">-</button>
                 {{p.quantity}}
                 <button class="btn btn-primary" ng-click="addToCart(p.productId)">+</button>
             </td>
-            <td>{{p.coast}}</td>
+            <td>{{p.price}}</td>
             <td>
                 <button class="btn btn-primary" ng-click="AllFromCart(p.productId)">Из корзины</button>
             </td>
@@ -64,13 +49,11 @@
             <td>Всего товаров:</td>
             <td>{{productList.totalProductsCount}}</td>
             <td>Сумма всего:</td>
-            <td><b>{{productList.totalCoast}}</b></td>
+            <td><b>{{productList.totalPrice}}</b></td>
         </tr>
     </table>
     <button class="btn btn-primary" ng-click="clear()">Очистить корзину</button>
-    <a href="index.html">
+    <a href="../index.html">
         <button type="button" class="btn btn-info">к каталогу</button>
     </a>
 </div>
-</body>
-</html>

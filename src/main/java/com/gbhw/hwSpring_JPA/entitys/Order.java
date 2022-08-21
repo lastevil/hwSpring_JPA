@@ -3,8 +3,11 @@ package com.gbhw.hwSpring_JPA.entitys;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,31 +21,23 @@ public class Order {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "user_id")
-    private Long user_id;
-
-    @Column(name = "fix_coast")
-    private Integer fix_coast;
-    @Column(name = "product_id")
-    private Long product_id;
-    @Column(name = "status")
-    private String status;
-    @OneToMany(mappedBy = "order")
-    List<Product> productList = new ArrayList<>();
-
-    public Order(Long user_id, String status) {
-        this.user_id = user_id;
-        this.status = status;
-    }
-
-    public void addProduct(Product product){
-        productList.add(product);
-        this.product_id=product.getId();
-        product.setOrder(this);
-    }
-
-    public void removeProduct(Product product){
-        productList.remove(product);
-        product.setOrder(null);
-    }
+    @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<OrderItem> items;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+    @Column(name = "total_price")
+    private Integer totalPrice;
+    @ManyToOne
+    @JoinColumn(name = "status_id")
+    private OrderStatus orderStatus;
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
+    @Column(name = "phone")
+    private String phone;
+    @CreationTimestamp
+    private LocalDateTime created_at;
+    @UpdateTimestamp
+    private LocalDateTime updated_at;
 }

@@ -18,17 +18,17 @@ public class Product {
     private Long id;
     @Column(name = "title")
     private String title;
-    @Column(name = "coast")
-    private Integer coast;
+    @Column(name = "price")
+    private Integer price;
 
     @ManyToOne
     @JoinTable(name = "orders")
     @JoinColumn (name = "product_id")
     private Order order;
 
-    public Product(Long id, String title, Integer coast) {
+    public Product(Long id, String title, Integer price) {
         this.id= id;
         this.title=title;
-        this.coast=coast;
+        this.price = price;
     }
 }

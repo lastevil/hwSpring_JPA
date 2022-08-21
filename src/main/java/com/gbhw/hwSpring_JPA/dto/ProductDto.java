@@ -15,5 +15,5 @@ public class ProductDto {
 
     private String title;
 
-    private Integer coast;
+    private Integer price;
 }

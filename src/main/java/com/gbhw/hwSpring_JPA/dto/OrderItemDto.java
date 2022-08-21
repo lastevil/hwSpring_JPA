@@ -6,19 +6,19 @@ public class OrderItemDto {
     private Long productId;
     private String title;
     private Integer quantity;
-    private Integer coastPerProduct;
-    private Integer coast;
+    private Integer pricePerProduct;
+    private Integer price;
 
     public OrderItemDto(ProductDto product){
         this.productId = product.getId();
         this.title = product.getTitle();
         this.quantity = 1;
-        this.coastPerProduct = product.getCoast();
-        this.coast = product.getCoast();
+        this.pricePerProduct = product.getPrice();
+        this.price = product.getPrice();
     }
 
     public void changeQuantity(int delta){
         this.quantity += delta;
-        this.coast = this.quantity * this.coastPerProduct;
+        this.price = this.quantity * this.pricePerProduct;
     }
 }

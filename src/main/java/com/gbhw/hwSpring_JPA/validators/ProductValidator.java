@@ -12,7 +12,7 @@ public class ProductValidator {
     public void validate(ProductDto productDto){
         List<String> errors = new ArrayList<>();
 
-        if (productDto.getCoast()<1){
+        if (productDto.getPrice()<1){
             errors.add("Цена не может быть меньше 1");
         }
         if (productDto.getTitle().isBlank()){

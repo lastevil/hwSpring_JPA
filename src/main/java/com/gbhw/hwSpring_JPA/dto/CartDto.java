@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class CartDto {
     Long id;
     String title;
-    Integer coast;
+    Integer price;
     Integer count;
 }
