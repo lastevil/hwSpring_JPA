@@ -1,7 +1,9 @@
 package com.gbhw.hwSpring_JPA.dto;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class OrderItemDto {
     private Long productId;
     private String title;

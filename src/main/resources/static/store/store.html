@@ -23,7 +23,7 @@
     <tbody>
     <tr ng-repeat="p in productList.content">
         <td>{{p.title}}</td>
-        <td>{{p.coast}}</td>
+        <td>{{p.price}}</td>
         <td>
             <button class="btn btn-primary" ng-click="toCart(p.id)">В корзину</button>
         </td>
@@ -41,17 +41,13 @@
         </button>
     </div>
 </div>
-<p></p>
-<a href="html/cart.html">
-    <button class="btn btn-primary" ng-click="goToCart()">В корзине ({{cartCount}})</button>
-</a>
 <p>
     <label>Добавить продукт</label>
 <form novalidate ng-submit="newProduct()">
     <div class="category" style="display: inline-flex">
         <input class="form-control" type="text" placeholder="Название" ng-model="newProd.title">
         <input style="margin-left: 5px" class="form-control" type="number" placeholder="Цена"
-               ng-model="newProd.coast">
+               ng-model="newProd.price">
         <button style="margin-left: 5px" type="submit" class="btn btn-primary" type="reset">Добавить</button>
     </div>
     <p>

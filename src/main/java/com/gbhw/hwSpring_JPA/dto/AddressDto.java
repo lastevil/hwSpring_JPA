@@ -11,4 +11,5 @@ public class AddressDto {
     private Integer house;
     private Integer flat;
     private Integer postIndex;
+    private String fullAddress;
 }

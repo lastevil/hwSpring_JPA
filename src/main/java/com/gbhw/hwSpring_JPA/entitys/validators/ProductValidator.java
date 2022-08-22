@@ -1,4 +1,4 @@
-package com.gbhw.hwSpring_JPA.validators;
+package com.gbhw.hwSpring_JPA.entitys.validators;
 
 import com.gbhw.hwSpring_JPA.dto.ProductDto;
 import com.gbhw.hwSpring_JPA.dto.exceptions.ValidateException;

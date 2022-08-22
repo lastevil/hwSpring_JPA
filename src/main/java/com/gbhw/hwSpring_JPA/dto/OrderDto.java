@@ -15,9 +15,9 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderDto {
     private Long id;
-    private List<OrderItem> items;
-    private Integer total_price;
-    private LocalDateTime created_at;
+    //private List<OrderItem> items;
+    private Integer totalPrice;
+    private String created_at;
     private OrderStatus orderStatus;
     private AddressDto address;
 }

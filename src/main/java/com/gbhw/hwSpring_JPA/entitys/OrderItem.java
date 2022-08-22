@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "oreder_products")
+@Table(name = "order_products")
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +21,6 @@ public class OrderItem {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
-
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
@@ -31,10 +30,8 @@ public class OrderItem {
     private Integer price;
     @Column(name = "price_per_product")
     private Integer pricePerProduct;
-
     @CreationTimestamp
-    private LocalDateTime localDateTime;
-
+    private LocalDateTime createdAt;
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 }

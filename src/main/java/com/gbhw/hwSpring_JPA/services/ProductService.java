@@ -7,7 +7,7 @@ import com.gbhw.hwSpring_JPA.dto.exceptions.ValidateException;
 import com.gbhw.hwSpring_JPA.entitys.Product;
 import com.gbhw.hwSpring_JPA.repositorys.ProductRepository;
 import com.gbhw.hwSpring_JPA.repositorys.specification.ProductSpecification;
-import com.gbhw.hwSpring_JPA.validators.ProductValidator;
+import com.gbhw.hwSpring_JPA.entitys.validators.ProductValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

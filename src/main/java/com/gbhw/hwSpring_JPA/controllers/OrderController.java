@@ -3,6 +3,7 @@ package com.gbhw.hwSpring_JPA.controllers;
 import com.gbhw.hwSpring_JPA.dto.AddressDto;
 import com.gbhw.hwSpring_JPA.dto.OrderDetailsDto;
 import com.gbhw.hwSpring_JPA.dto.OrderDto;
+import com.gbhw.hwSpring_JPA.dto.OrderItemDto;
 import com.gbhw.hwSpring_JPA.services.AddressService;
 import com.gbhw.hwSpring_JPA.services.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,7 @@ public class OrderController {
         addressService.deleteAddress(id);
     }
 
-    @PostMapping("/addresses")
+    @GetMapping("/addresses")
     public List<AddressDto> getAddresses(@HeadersSecurityMarker UsernamePasswordAuthenticationToken token){
         return addressService.getAddresses(token.getPrincipal().toString());
     }
@@ -40,13 +41,22 @@ public class OrderController {
         return orderService.getUserOrders(token.getPrincipal().toString());
     }
 
+    @PostMapping("/pay/{id}")
+    public void payOrder(@PathVariable Long id){
+        orderService.payOrder(id);
+    }
+    @GetMapping("/{id}")
+    public List<OrderItemDto> getOrderItems(@PathVariable Long id){
+        return orderService.getOrderItems(id);
+    }
+
     @DeleteMapping("/{id}")
     public void deleteOrder(@PathVariable Long id){
             orderService.deleteOrderById(id);
     }
 
-    @PostMapping()
-    public void addOrder(@RequestBody OrderDetailsDto orderDetailsDto, @RequestBody String cartName, @HeadersSecurityMarker UsernamePasswordAuthenticationToken token){
+    @PostMapping("/{cartName}")
+    public void addOrder(@PathVariable String cartName, @RequestBody OrderDetailsDto orderDetailsDto, @HeadersSecurityMarker UsernamePasswordAuthenticationToken token){
         orderService.createOrder(orderDetailsDto, cartName, token.getPrincipal().toString());
     }
 }

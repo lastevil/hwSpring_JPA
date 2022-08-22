@@ -1,21 +1,21 @@
 (function () {
     angular
-        .module('store-front', ['ngRoute', 'ngStorage'])
+        .module("store-front", ['ngRoute', 'ngStorage'])
         .config(config)
         .run(run);
 
     function config($routeProvider) {
         $routeProvider
             .when('/store', {
-                templateUrl: 'html/store.html',
+                templateUrl: 'store/store.html',
                 controller: 'storeController'
             })
             .when('/cart', {
-                templateUrl: 'html/cart.html',
+                templateUrl: 'cart/cart.html',
                 controller: 'cartController'
             })
             .when('/order', {
-                templateUrl: 'html/order.html',
+                templateUrl: 'order/order.html',
                 controller: 'orderController'
             })
             .otherwise({
@@ -23,62 +23,75 @@
             });
     }
 
-    function run($rootScope, $http, localStorage) {
-        if (localStorage.springWebUser) {
-            $http.defaults.headers.common.Authorization = 'Bearer ' + localStorage.springWebUser.token;
+    function run($rootScope, $http, $localStorage) {
+        if ($localStorage.springWebUser) {
+            $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.springWebUser.token;
         }
     }
 })();
 
+angular.module("store-front").controller("indexController", function ($scope, $rootScope, $http, $localStorage) {
+    const contextPath = 'http://localhost:8189/app/api/v1';
 
-angular.module('store-front').controller('indexController', function ($scope, $rootScope, $http) {
-  const contextPath = 'http://localhost:8189/app/api/v1';
+    $scope.getAddresses = function () {
+        $http.get('http://localhost:8189/app/api/v1/order/addresses')
+            .then(function (response) {
+                $scope.addressList = response.data;
+            });
+    };
 
     $scope.tryToAuth = function () {
         $http.post(contextPath + '/auth', $scope.user)
             .then(function successCallback(response) {
                 if (response.data.token) {
-                    localStorage.springWebUser = $scope.user.username;
-                    localStorage.springToken = response.data.token;
+                    $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
+                    $localStorage.springWebUser = {username: $scope.user.username, token: response.data.token};
+                    $localStorage.cartName = "cart_" + $scope.user.username;
                     $scope.user.username = null;
                     $scope.user.password = null;
+                    $scope.getAddresses();
                 }
-                $scope.loadCatalog(currentPage);
                 $scope.getCartCount();
             });
     };
 
     $scope.tryToLogout = function () {
         $scope.clearUser();
-        if ($scope.user.username) {
+        if ($scope.user?.username) {
             $scope.user.username = null;
         }
-        if ($scope.user.password) {
+        if ($scope.user?.password) {
             $scope.user.password = null;
         }
     };
 
     $scope.clearUser = function () {
-        delete localStorage.springWebUser;
+        delete $localStorage.springWebUser;
+        delete $scope.address;
         $http.defaults.headers.common.Authorization = '';
-        localStorage.cartName = "cart_" + (Math.random() * 100);
-        $scope.loadCatalog(currentPage);
+        $localStorage.cartName = "cart_" + (Math.random() * 100);
         $scope.getCartCount();
     };
 
     $rootScope.isUserLoggedIn = function () {
-        if (localStorage.springWebUser) {
+        if ($localStorage.springWebUser) {
             return true;
         } else {
             return false;
         }
     };
-
-    if (!localStorage.cartName) {
-        localStorage.cartName = "cart_" + (Math.random() * 100);
+    $scope.getCartCount = function () {
+        $http.post('http://localhost:8189/app/api/v1/cart/productCount/', $localStorage.cartName)
+            .then(function (response) {
+                $scope.cartCount = response.data;
+            });
+    };
+    $scope.getCartCount();
+    if (!$localStorage.cartName) {
+        $localStorage.cartName = "cart_" + (Math.random() * 100);
     }
-    if (localStorage.springWebUser) {
-        $http.defaults.headers.common.Authorization = 'Bearer ' + localStorage.springToken;
-        localStorage.cartName = "cart_" + localStorage.springWebUser;
+    if ($localStorage.springWebUser) {
+        $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.springToken;
+        $localStorage.cartName = "cart_" + $localStorage.springWebUser;
     }
 });

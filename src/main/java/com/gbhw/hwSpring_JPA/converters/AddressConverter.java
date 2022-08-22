@@ -32,6 +32,16 @@ public class AddressConverter {
         if (address.getFlat() != null) {
             addressDto.setFlat(address.getFlat());
         }
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(address.getPostIndex())
+                .append(", ").append(address.getCountry())
+                        .append(", ").append(address.getCity())
+                        .append(", ул.").append(address.getStreet())
+                        .append(", дом.").append(address.getHouse());
+        if(address.getFlat()!=null){
+            stringBuilder.append(", кв.").append(address.getFlat());
+        }
+        addressDto.setFullAddress(stringBuilder.toString());
         return addressDto;
     }
 }

@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Data
 public class Address {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "country")
     private String country;
