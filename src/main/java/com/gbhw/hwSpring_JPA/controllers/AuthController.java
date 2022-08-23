@@ -1,5 +1,6 @@
 package com.gbhw.hwSpring_JPA.controllers;
 
+import com.gbhw.hwSpring_JPA.aspect.AspectLoging;
 import com.gbhw.hwSpring_JPA.dto.jwt.JwtRequest;
 import com.gbhw.hwSpring_JPA.dto.jwt.JwtResponse;
 import com.gbhw.hwSpring_JPA.dto.UserDto;
@@ -13,10 +14,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
+
+    private final AspectLoging aspectLoging;
 
     private final JwtTokenUtil jwtTokenUtil;
 
@@ -48,6 +50,11 @@ public class AuthController {
             userService.createUser(userDto);
             return ResponseEntity.ok(HttpStatus.OK);
         }
+    }
+
+    @GetMapping("/statistic")
+    public HashMap<String,Long> getStatistic(){
+        return aspectLoging.getServicesTimes();
     }
 
 }

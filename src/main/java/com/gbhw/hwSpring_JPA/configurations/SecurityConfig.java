@@ -3,6 +3,7 @@ package com.gbhw.hwSpring_JPA.configurations;
 import com.gbhw.hwSpring_JPA.configurations.filters.JwtRequestFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

@@ -3,7 +3,10 @@ package com.gbhw.hwSpring_JPA.services;
 import com.gbhw.hwSpring_JPA.dto.ProductDto;
 import com.gbhw.hwSpring_JPA.models.Cart;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -14,41 +17,47 @@ public class CartService {
 
     private final ProductService productsService;
     private final CacheManager cacheManager;
+    @Value("${spring.cache.user.name}")
+    private String CACHE_CART;
     private Cart cart;
 
+    @Cacheable(value = "Cart", key = "#cartName")
     public Cart getCurrentCart(String cartName) {
-        cart = cacheManager.getCache("Cart").get(cartName, Cart.class);
+        cart = cacheManager.getCache(CACHE_CART).get(cartName, Cart.class);
         if (!Optional.ofNullable(cart).isPresent()) {
             cart = new Cart(cartName, cacheManager);
-            cacheManager.getCache("Cart").put(cartName, cart);
+            cacheManager.getCache(CACHE_CART).put(cartName, cart);
         }
         return cart;
     }
 
-    public void clearCart(String cartName) {
-        cart = getCurrentCart(cartName);
+    @CachePut(value = "Cart", key = "#cartName")
+    public Cart clearCart(String cartName){
+        Cart cart = getCurrentCart(cartName);
         cart.clear();
-        cacheManager.getCache("Cart").put(cartName, cart);
+        return cart;
     }
 
-    public void addProductByIdToCart(Long id, String cartName) {
-        cart = getCurrentCart(cartName);
+    @CachePut(value = "Cart", key = "#cartName")
+    public Cart addProductByIdToCart(Long id, String cartName) {
+        Cart cart = getCurrentCart(cartName);
         ProductDto product = productsService.getProductById(id);
         cart.addProduct(product);
-        cacheManager.getCache("Cart").put(cartName,cart);
+        return cart;
     }
 
-    public void removeOneProductByIdFromCart(Long id, String cartName){
-        cart = getCurrentCart(cartName);
+    @CachePut(value = "Cart", key = "#cartName")
+    public Cart removeOneProductByIdFromCart(Long id, String cartName){
+        Cart cart = getCurrentCart(cartName);
         ProductDto product = productsService.getProductById(id);
         cart.removeOneProduct(product);
-        cacheManager.getCache("Cart").put(cartName,cart);
+        return cart;
     }
-
-    public void removeAllProductByIdFromCart(Long id, String cartName){
-        cart = getCurrentCart(cartName);
+    @CachePut(value = "Cart", key = "#cartName")
+    public Cart removeAllProductByIdFromCart(Long id, String cartName){
+        Cart cart = getCurrentCart(cartName);
         ProductDto product = productsService.getProductById(id);
         cart.removeAllProducts(product);
-        cacheManager.getCache("Cart").put(cartName,cart);
+        return cart;
     }
 }
