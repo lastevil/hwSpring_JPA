@@ -66,14 +66,8 @@ public class ProductService {
         product.setTitle(product.getTitle());
 
     }
-    public List<ProductDto> getProductDTOList(List<Long> orderList) {
+    public List<Product> getAllProductList() {
         List<ProductDto> productList = new ArrayList<>();
-        if (orderList.isEmpty()) {
-            return productList;
-        }
-        for (Long i:orderList) {
-            productList.add(productMapper.toProductDTO(productRepository.findById(i).orElseThrow()));
-        }
-        return productList;
+        return productRepository.findAll();
     }
 }

@@ -10,6 +10,6 @@ public interface ProductMapper {
     ProductMapper MAPPER = Mappers.getMapper(ProductMapper.class);
 
     Product toProduct(ProductDto productDto);
-
+@InheritInverseConfiguration
     ProductDto toProductDTO(Product product);
 }
