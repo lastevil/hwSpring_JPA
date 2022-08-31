@@ -1,5 +1,5 @@
 angular.module('store-front').controller('cartController', function ($scope, $http, $localStorage) {
-    const contextPath = 'http://localhost:8189/app/api/v1/cart';
+    const contextPath = 'http://localhost:5555/cart/api/v1/cart';
 
     $scope.loadCart = function () {
         $http.post(contextPath, $localStorage.cartName)
@@ -41,7 +41,7 @@ angular.module('store-front').controller('cartController', function ($scope, $ht
     };
 
     $scope.addAddress = function () {
-        $http.post('http://localhost:8189/app/api/v1/order/addAddress', $scope.address)
+        $http.post('http://localhost:5555/orders/api/v1/order/addAddress', $scope.address)
             .then(function successCallback(response) {
                 $scope.address.country = null;
                 $scope.address.city = null;
@@ -61,7 +61,7 @@ angular.module('store-front').controller('cartController', function ($scope, $ht
     };
 
     $scope.createOrder = function () {
-        $http.post('http://localhost:8189/app/api/v1/order/' + $localStorage.cartName, $scope.orderDetailsDto)
+        $http.post('http://localhost:5555/orders/api/v1/order/' + $localStorage.cartName, $scope.orderDetailsDto)
             .then(function (response) {
                 $scope.loadCart();
                 $scope.orderDetails = null

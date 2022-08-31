@@ -1,5 +1,5 @@
 angular.module('store-front').controller('orderController', function ($scope, $http) {
-    const contextPath = 'http://localhost:8189/app/api/v1/order';
+    const contextPath = 'http://localhost:5555/orders/api/v1/order';
     $scope.getOrders = function () {
         $http.get(contextPath)
             .then(function (response) {

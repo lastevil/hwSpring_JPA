@@ -9,7 +9,7 @@ public class CartConverter {
     public CartDto fromCart(Cart cart){
         CartDto cartDto = new CartDto();
         cartDto.setProducts(cart.getProducts());
-        cartDto.setTotalPrice(cartDto.getTotalPrice());
+        cartDto.setTotalPrice(cart.getTotalPrice());
         cartDto.setTotalProductsCount(cart.getTotalProductsCount());
         return cartDto;
     }

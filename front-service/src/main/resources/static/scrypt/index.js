@@ -19,22 +19,22 @@
                 controller: 'orderController'
             })
             .otherwise({
-                redirectTo: '/'
+                redirectTo: '/store'
             });
     }
 
     function run($rootScope, $http, $localStorage) {
         if ($localStorage.springWebUser) {
-            $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.springWebUser.token;
+            $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.springToken;
         }
     }
 })();
 
 angular.module("store-front").controller("indexController", function ($scope, $rootScope, $http, $localStorage) {
-    const contextPath = 'http://localhost:8189/app/api/v1';
+    const contextPath = 'http://localhost:5555/auth/api/v1';
 
     $scope.getAddresses = function () {
-        $http.get('http://localhost:8189/app/api/v1/order/addresses')
+        $http.get('http://localhost:5555/orders/api/v1/order/addresses')
             .then(function (response) {
                 $scope.addressList = response.data;
             });
@@ -45,7 +45,8 @@ angular.module("store-front").controller("indexController", function ($scope, $r
             .then(function successCallback(response) {
                 if (response.data.token) {
                     $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
-                    $localStorage.springWebUser = {username: $scope.user.username, token: response.data.token};
+                    $localStorage.springWebUser = $scope.user.username;
+                    $localStorage.springToken =  response.data.token
                     $localStorage.cartName = "cart_" + $scope.user.username;
                     $scope.user.username = null;
                     $scope.user.password = null;
@@ -81,7 +82,7 @@ angular.module("store-front").controller("indexController", function ($scope, $r
         }
     };
     $scope.getCartCount = function () {
-        $http.post('http://localhost:8189/app/api/v1/cart/productCount/', $localStorage.cartName)
+        $http.post('http://localhost:5555/cart/api/v1/cart/productCount/', $localStorage.cartName)
             .then(function (response) {
                 $scope.cartCount = response.data;
             });

@@ -3,6 +3,7 @@ package com.hw.spring.cart.services;
 import com.hw.spring.cart.models.Cart;
 import com.hw.spring.global.dto.ProductDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachePut;
@@ -15,9 +16,10 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CartService {
+    @Qualifier("test")
     private final CacheManager cacheManager;
     private final RestTemplate restTemplate;
-    private static final String PRODUCT_SERVICE_URL = "http://localhost:8189/api/v1/product";
+    private static final String PRODUCT_SERVICE_URL = "http://localhost:8189/market/api/v1/products";
     @Value("${spring.cache.user.name}")
     private String CACHE_CART;
     private Cart cart;
