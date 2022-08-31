@@ -2,39 +2,54 @@ angular.module('store-front').controller('cartController', function ($scope, $ht
     const contextPath = 'http://localhost:5555/cart/api/v1/cart';
 
     $scope.loadCart = function () {
-        $http.post(contextPath, $localStorage.cartName)
-            .then(function (response) {
+        $http({
+            url:contextPath,
+            method: 'POST',
+            data: {cartName: $localStorage.cartName}
+        }).then(function (response) {
                 $scope.productList = response.data;
             });
 
     };
 
     $scope.fromCart = function (id) {
-        $http.post(contextPath + '/remove/' + id, $localStorage.cartName)
-            .then(function (response) {
+        $http({
+            url:contextPath + '/remove/' + id,
+            method: 'POST',
+            data: {cartName: $localStorage.cartName}
+        }).then(function (response) {
                 console.log("тоавар удален из корзины");
                 $scope.loadCart();
             });
     };
 
     $scope.clear = function () {
-        $http.post(contextPath + '/clear', $localStorage.cartName)
-            .then(function (response) {
+        $http({
+            url:contextPath + '/clear',
+            method: 'POST',
+            data: {cartName: $localStorage.cartName}
+        }).then(function (response) {
                 console.log("корзина очищена");
                 $scope.loadCart();
             });
     };
 
     $scope.addToCart = function (id) {
-        $http.post(contextPath + '/' + id, $localStorage.cartName)
-            .then(function (response) {
+        $http({
+            url: contextPath + '/' + id,
+            method: 'POST',
+            data: {cartName: $localStorage.cartName}
+        }).then(function (response) {
                 console.log("еще один товар добавлен в корзину");
                 $scope.loadCart();
             });
     };
     $scope.AllFromCart = function (id) {
-        $http.post(contextPath + '/removeAll/' + id, $localStorage.cartName)
-            .then(function (response) {
+        $http({
+            url: contextPath + '/removeAll/' + id,
+            method: 'POST',
+            data: {cartName: $localStorage.cartName}
+        }).then(function (response) {
                 console.log("ленейка товаров удалена");
                 $scope.loadCart();
             });
@@ -61,8 +76,11 @@ angular.module('store-front').controller('cartController', function ($scope, $ht
     };
 
     $scope.createOrder = function () {
-        $http.post('http://localhost:5555/orders/api/v1/order/' + $localStorage.cartName, $scope.orderDetailsDto)
-            .then(function (response) {
+        $http({
+            url: 'http://localhost:5555/orders/api/v1/order/' + $localStorage.cartName,
+            method: 'POST',
+            data: {orderDetailsDto: $scope.orderDetailsDto}
+            }).then(function (response) {
                 $scope.loadCart();
                 $scope.orderDetails = null
                 $scope.getCartCount();

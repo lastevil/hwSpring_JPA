@@ -24,7 +24,7 @@
     }
 
     function run($rootScope, $http, $localStorage) {
-        if ($localStorage.springWebUser) {
+        if ($localStorage.springToken) {
             $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.springToken;
         }
     }
@@ -46,7 +46,7 @@ angular.module("store-front").controller("indexController", function ($scope, $r
                 if (response.data.token) {
                     $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
                     $localStorage.springWebUser = $scope.user.username;
-                    $localStorage.springToken =  response.data.token
+                    $localStorage.springToken =  response.data.token;
                     $localStorage.cartName = "cart_" + $scope.user.username;
                     $scope.user.username = null;
                     $scope.user.password = null;
@@ -68,6 +68,7 @@ angular.module("store-front").controller("indexController", function ($scope, $r
 
     $scope.clearUser = function () {
         delete $localStorage.springWebUser;
+        delete $localStorage.springToken;
         delete $scope.address;
         $http.defaults.headers.common.Authorization = '';
         $localStorage.cartName = "cart_" + (Math.random() * 100);
@@ -82,8 +83,11 @@ angular.module("store-front").controller("indexController", function ($scope, $r
         }
     };
     $scope.getCartCount = function () {
-        $http.post('http://localhost:5555/cart/api/v1/cart/productCount/', $localStorage.cartName)
-            .then(function (response) {
+        $http({
+            url: 'http://localhost:5555/cart/api/v1/cart/productCount/',
+            method: 'POST',
+            data: {cartName: $localStorage.cartName}
+        }).then(function (response) {
                 $scope.cartCount = response.data;
             });
     };

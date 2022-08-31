@@ -3,6 +3,7 @@ package com.hw.spring.cart.controllers;
 import com.hw.spring.cart.converters.CartConverter;
 import com.hw.spring.cart.models.Cart;
 import com.hw.spring.cart.services.CartService;
+import com.hw.spring.global.dto.CartDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -13,11 +14,12 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class CartController {
     private final CartService service;
+    private final CartConverter cartConverter;
 
     @PostMapping
-    public Cart getCurrentCart(@RequestBody String cartName) {
-        log.debug(cartName);
-        return service.getCurrentCart(cartName);
+    public CartDto getCurrentCart(@RequestBody String cartName) {
+        log.info(cartName);
+        return cartConverter.fromCart(service.getCurrentCart(cartName));
 
     }
 

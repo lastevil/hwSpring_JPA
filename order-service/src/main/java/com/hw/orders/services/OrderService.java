@@ -1,5 +1,7 @@
 package com.hw.orders.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hw.orders.converters.OrderConverter;
 import com.hw.orders.converters.OrderItemConverter;
 import com.hw.orders.dto.OrderDto;
@@ -11,12 +13,17 @@ import com.hw.orders.repositorys.StatusRepository;
 import com.hw.spring.global.dto.*;
 import com.hw.spring.global.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -51,8 +58,8 @@ public class OrderService {
     }
 
     @Transactional
-    public void createOrder(OrderDetailsDto orderDetail, String cartname, String username) {
-        CartDto cart = restTemplate.getForObject("http://localhost:8170/cart/api/vi/cart",CartDto.class,cartname);
+    public void createOrder(OrderDetailsDto orderDetail, String cartName, String username){
+        CartDto cart = restTemplate.getForObject("http://localhost:8170/cart/api/v1/cart",CartDto.class,cartName);
         Order order = new Order();
         order.setAddress(addressService.getAddress(orderDetail.getAddressId()));
         order.setUsername(username);
@@ -63,7 +70,7 @@ public class OrderService {
         List<OrderItem> orderItems = getItemsFromCart(cart, order);
         order.setItems(orderItems);
         orderRepository.save(order);
-        restTemplate.postForLocation("http://localhost:8190/cart/api/v1/cart/clear",String.class,cartname);
+        restTemplate.postForObject("http://localhost:8190/cart/api/v1/cart/clear",cartName,String.class);
     }
 
     public void deleteOrderById(Long id) {

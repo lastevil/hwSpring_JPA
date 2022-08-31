@@ -1,4 +1,4 @@
-angular.module('store-front').controller('storeController', function ($scope, $http,$localStorage) {
+angular.module('store-front').controller('storeController', function ($scope, $http, $localStorage) {
     const contextPath = 'http://localhost:5555/gateway/api/v1/products';
     let currentPage = 1;
     let lastPage = 0;
@@ -62,10 +62,14 @@ angular.module('store-front').controller('storeController', function ($scope, $h
     };
 
     $scope.toCart = function (productId) {
-        $http.post('http://localhost:5555/cart/api/v1/cart/' + productId, $localStorage.cartName)
-            .then(function (response) {
-                $scope.loadCatalog(currentPage);
-            });
+        $http({
+            url: 'http://localhost:5555/cart/api/v1/cart/' + productId,
+            method: 'POST',
+            data: {cartName: $localStorage.cartName}
+        }).then(function (response) {
+            $scope.loadCatalog(currentPage);
+        });
     };
+
     $scope.loadCatalog(currentPage);
 });

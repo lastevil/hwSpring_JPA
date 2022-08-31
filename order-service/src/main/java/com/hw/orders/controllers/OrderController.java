@@ -1,5 +1,6 @@
 package com.hw.orders.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hw.orders.services.AddressService;
 import com.hw.orders.services.OrderService;
 import com.hw.spring.global.dto.AddressDto;
@@ -54,7 +55,7 @@ public class OrderController {
     }
 
     @PostMapping("/{cartName}")
-    public void addOrder(@PathVariable String cartName, @RequestBody OrderDetailsDto orderDetailsDto, @RequestHeader String username){
+    public void addOrder(@PathVariable String cartName, @RequestBody OrderDetailsDto orderDetailsDto, @RequestHeader String username) throws JsonProcessingException {
         orderService.createOrder(orderDetailsDto, cartName, username);
     }
 }
