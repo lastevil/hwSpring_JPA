@@ -59,7 +59,9 @@ public class OrderService {
 
     @Transactional
     public void createOrder(OrderDetailsDto orderDetail, String cartName, String username){
-        CartDto cart = restTemplate.getForObject("http://localhost:8170/cart/api/v1/cart",CartDto.class,cartName);
+        Map<String,String> cartMap = new HashMap<>();
+        cartMap.put("cartName", cartName);
+        CartDto cart = restTemplate.postForObject("http://localhost:8170/cart/api/v1/cart",cartMap,CartDto.class);
         Order order = new Order();
         order.setAddress(addressService.getAddress(orderDetail.getAddressId()));
         order.setUsername(username);
@@ -70,7 +72,7 @@ public class OrderService {
         List<OrderItem> orderItems = getItemsFromCart(cart, order);
         order.setItems(orderItems);
         orderRepository.save(order);
-        restTemplate.postForObject("http://localhost:8190/cart/api/v1/cart/clear",cartName,String.class);
+        //restTemplate.postForObject("http://localhost:8190/cart/api/v1/cart/clear",cartMap,String.class);
     }
 
     public void deleteOrderById(Long id) {

@@ -76,11 +76,8 @@ angular.module('store-front').controller('cartController', function ($scope, $ht
     };
 
     $scope.createOrder = function () {
-        $http({
-            url: 'http://localhost:5555/orders/api/v1/order/' + $localStorage.cartName,
-            method: 'POST',
-            data: {orderDetailsDto: $scope.orderDetailsDto}
-            }).then(function (response) {
+        $http.post('http://localhost:5555/orders/api/v1/order/' + $localStorage.cartName, $scope.orderDetailsDto)
+            .then(function (response) {
                 $scope.loadCart();
                 $scope.orderDetails = null
                 $scope.getCartCount();
