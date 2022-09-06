@@ -1,4 +1,4 @@
-package com.hw.spring.global.exceptions;
+package com.hw.spring.auth.exceptions;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

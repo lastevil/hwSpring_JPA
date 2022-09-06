@@ -1,4 +1,4 @@
-package com.hw.spring.global.exceptions;
+package com.hw.market.exceptions;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -10,7 +10,6 @@
         <module>auth-service</module>
         <module>cart-service</module>
         <module>order-service</module>
-        <module>core-common</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

@@ -1,7 +1,7 @@
 package com.hw.market.entitys.validators;
 
 import com.hw.market.dto.ProductDto;
-import com.hw.spring.global.exceptions.ValidateException;
+import com.hw.market.exceptions.ValidateException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

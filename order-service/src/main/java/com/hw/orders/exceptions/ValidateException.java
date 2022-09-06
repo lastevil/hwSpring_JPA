@@ -1,4 +1,4 @@
-package com.hw.spring.global.exceptions;
+package com.hw.orders.exceptions;
 
 import java.util.List;
 import java.util.stream.Collectors;
