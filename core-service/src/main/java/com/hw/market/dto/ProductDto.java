@@ -1,4 +1,4 @@
-package com.hw.spring.global.dto;
+package com.hw.market.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -41,8 +41,10 @@ public class RedisConfig {
                 .disableCachingNullValues();
         Set<String> cacheNames = new HashSet<>();
         cacheNames.add(userCacheName);
+        cacheNames.add("Product");
         Map<String,RedisCacheConfiguration> configMap= new HashMap<>();
         configMap.put(userCacheName,defaultCacheConfig.entryTtl(Duration.ofSeconds(userCacheExpireTime)));
+        configMap.put("Product",defaultCacheConfig.entryTtl(Duration.ofSeconds(userCacheExpireTime)));
         RedisCacheManager cacheManager = RedisCacheManager.builder(connectionFactory)
                 .cacheDefaults(defaultCacheConfig)
                 .initialCacheNames(cacheNames)

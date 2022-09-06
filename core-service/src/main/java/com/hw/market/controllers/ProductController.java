@@ -1,8 +1,8 @@
 package com.hw.market.controllers;
 
 
+import com.hw.market.dto.ProductDto;
 import com.hw.market.services.ProductService;
-import com.hw.spring.global.dto.ProductDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

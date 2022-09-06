@@ -1,7 +1,7 @@
 package com.hw.spring.cart.models;
 
-import com.hw.spring.global.dto.OrderItemDto;
-import com.hw.spring.global.dto.ProductDto;
+import com.hw.spring.cart.dto.OrderItemDto;
+import com.hw.spring.cart.dto.ProductDto;
 import lombok.Data;
 import org.springframework.cache.CacheManager;
 
@@ -66,6 +66,10 @@ public class Cart {
     }
 
     public void removeOneProduct(ProductDto product) {
+        if(totalProductsCount==1){
+            clear();
+            return;
+        }
         for (OrderItemDto oi : products) {
             if (oi.getProductId().equals(product.getId())) {
                 if (oi.getQuantity() == 1) {
@@ -94,4 +98,5 @@ public class Cart {
             totalProductsCount+=o.getQuantity();
         }
     }
+
 }

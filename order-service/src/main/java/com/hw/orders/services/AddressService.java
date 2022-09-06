@@ -4,7 +4,7 @@ package com.hw.orders.services;
 import com.hw.orders.converters.AddressConverter;
 import com.hw.orders.entitys.Address;
 import com.hw.orders.repositorys.AddressRepository;
-import com.hw.spring.global.dto.AddressDto;
+import com.hw.orders.dto.AddressDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

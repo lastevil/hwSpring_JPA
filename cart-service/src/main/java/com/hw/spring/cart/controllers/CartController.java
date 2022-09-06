@@ -1,9 +1,8 @@
 package com.hw.spring.cart.controllers;
 
 import com.hw.spring.cart.converters.CartConverter;
-import com.hw.spring.cart.models.Cart;
+import com.hw.spring.cart.dto.CartDto;
 import com.hw.spring.cart.services.CartService;
-import com.hw.spring.global.dto.CartDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

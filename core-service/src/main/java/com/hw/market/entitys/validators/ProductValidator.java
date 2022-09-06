@@ -1,6 +1,6 @@
 package com.hw.market.entitys.validators;
 
-import com.hw.spring.global.dto.ProductDto;
+import com.hw.market.dto.ProductDto;
 import com.hw.spring.global.exceptions.ValidateException;
 import org.springframework.stereotype.Component;
 

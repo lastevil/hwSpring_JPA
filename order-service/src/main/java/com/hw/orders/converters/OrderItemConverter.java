@@ -1,7 +1,7 @@
 package com.hw.orders.converters;
 
+import com.hw.orders.dto.OrderItemDto;
 import com.hw.orders.entitys.OrderItem;
-import com.hw.spring.global.dto.OrderItemDto;
 import org.springframework.stereotype.Component;
 
 @Component

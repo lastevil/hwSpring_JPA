@@ -1,7 +1,7 @@
 package com.hw.orders.converters;
 
 import com.hw.orders.entitys.Address;
-import com.hw.spring.global.dto.AddressDto;
+import com.hw.orders.dto.AddressDto;
 import org.springframework.stereotype.Component;
 
 @Component

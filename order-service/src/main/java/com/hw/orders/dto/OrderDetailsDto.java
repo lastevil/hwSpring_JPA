@@ -1,4 +1,4 @@
-package com.hw.spring.global.dto;
+package com.hw.orders.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
