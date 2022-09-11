@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -24,7 +23,6 @@ public class CartService {
     @Value("${spring.cache.user.name}")
     private String CACHE_CART;
     private Cart cart;
-    private ProductDto product;
 
     @Cacheable(value = "Cart", key = "#cartName")
     public Cart getCurrentCart(String cartName) {
@@ -44,21 +42,15 @@ public class CartService {
     }
 
 
-    @Caching(
-            put = {@CachePut(value = "Cart", key = "#cartName")},
-            cacheable = {@Cacheable(value = "Product", key = "#id")}
-    )
+    @CachePut(value = "Cart", key = "#cartName")
     public Cart addProductByIdToCart(Long id, String cartName) {
         Cart cart = getCurrentCart(cartName);
-        product = restTemplate.getForObject(PRODUCT_SERVICE_URL + "/" + id, ProductDto.class);
+        ProductDto product = restTemplate.getForObject(PRODUCT_SERVICE_URL + "/" + id, ProductDto.class);
         cart.addProduct(product);
         return cart;
     }
 
-    @Caching(
-            put = {@CachePut(value = "Cart", key = "#cartName")},
-            cacheable = {@Cacheable(value = "Product", key = "#id")}
-    )
+    @CachePut(value = "Cart", key = "#cartName")
     public Cart removeOneProductByIdFromCart(Long id, String cartName) {
         Cart cart = getCurrentCart(cartName);
         ProductDto product = restTemplate.getForObject(PRODUCT_SERVICE_URL + "/" + id, ProductDto.class);
@@ -66,11 +58,7 @@ public class CartService {
         return cart;
     }
 
-    @Caching(
-            put = {@CachePut(value = "Cart", key = "#cartName"),
-                    @CachePut(value = "Product", key = "#id")
-            }
-    )
+    @CachePut(value = "Cart", key = "#cartName")
     public Cart removeAllProductByIdFromCart(Long id, String cartName) {
         Cart cart = getCurrentCart(cartName);
         ProductDto product = restTemplate.getForObject(PRODUCT_SERVICE_URL + "/" + id, ProductDto.class);

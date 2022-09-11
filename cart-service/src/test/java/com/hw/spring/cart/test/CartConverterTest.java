@@ -2,6 +2,7 @@ package com.hw.spring.cart.test;
 
 import com.hw.spring.cart.converters.CartConverter;
 import com.hw.spring.cart.dto.CartDto;
+import com.hw.spring.cart.dto.OrderDetailsDto;
 import com.hw.spring.cart.dto.ProductDto;
 import com.hw.spring.cart.models.Cart;
 import com.hw.spring.cart.services.CartService;
@@ -38,7 +39,7 @@ public class CartConverterTest {
 
         Cart cart = cartService.getCurrentCart(CARTNAME);
 
-        CartDto cartDto =cartConverter.fromCart(cart);
+        CartDto cartDto =cartConverter.fromCart(cart,new OrderDetailsDto(),null);
 
         Assertions.assertEquals(cart.getTotalPrice(),cartDto.getTotalPrice());
         Assertions.assertEquals(cart.getProducts().size(),cartDto.getProducts().size());

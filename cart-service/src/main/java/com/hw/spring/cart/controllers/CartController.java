@@ -17,9 +17,7 @@ public class CartController {
 
     @PostMapping
     public CartDto getCurrentCart(@RequestBody String cartName) {
-        log.info(cartName);
         return cartConverter.fromCart(service.getCurrentCart(cartName));
-
     }
 
     @PostMapping("/{id}")
@@ -46,4 +44,5 @@ public class CartController {
     public Integer getProductCountInCart(@RequestBody String cartName) {
         return service.getCurrentCart(cartName).getTotalProductsCount();
     }
+
 }

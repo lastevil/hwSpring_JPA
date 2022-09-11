@@ -76,7 +76,7 @@ angular.module('store-front').controller('cartController', function ($scope, $ht
     };
 
     $scope.createOrder = function () {
-        $http.post('http://localhost:5555/orders/api/v1/order/' + $localStorage.cartName, $scope.orderDetailsDto)
+        $http.post('http://localhost:5555/cart/api/v1/createOrder/' + $localStorage.cartName, $scope.orderDetailsDto)
             .then(function (response) {
                 $scope.loadCart();
                 $scope.orderDetails = null

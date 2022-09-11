@@ -12,7 +12,6 @@ import java.util.Optional;
 
 @Data
 public class Cart {
-
     private List<OrderItemDto> products;
 
     private Integer totalProductsCount;

@@ -13,4 +13,7 @@ public class CartDto {
     private List<OrderItemDto> products;
     private Integer totalProductsCount;
     private Integer totalPrice;
+    private String username;
+    private String phone;
+    private Long addressId;
 }

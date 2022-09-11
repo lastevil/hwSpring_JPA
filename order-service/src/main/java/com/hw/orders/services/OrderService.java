@@ -3,7 +3,6 @@ package com.hw.orders.services;
 import com.hw.orders.converters.OrderConverter;
 import com.hw.orders.converters.OrderItemConverter;
 import com.hw.orders.dto.CartDto;
-import com.hw.orders.dto.OrderDetailsDto;
 import com.hw.orders.dto.OrderDto;
 import com.hw.orders.dto.OrderItemDto;
 import com.hw.orders.entitys.Order;
@@ -13,6 +12,7 @@ import com.hw.orders.exceptions.ResourceNotFoundException;
 import com.hw.orders.repositorys.OrderRepository;
 import com.hw.orders.repositorys.StatusRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -54,21 +54,18 @@ public class OrderService {
     }
 
     @Transactional
-    public void createOrder(OrderDetailsDto orderDetail, String cartName, String username){
-        Map<String,String> cartMap = new HashMap<>();
-        cartMap.put("cartName", cartName);
-        CartDto cart = restTemplate.postForObject("http://localhost:8170/cart/api/v1/cart",cartMap,CartDto.class);
+    @KafkaListener(topics = "Cart")
+    public void createOrder(CartDto cart){
         Order order = new Order();
-        order.setAddress(addressService.getAddress(orderDetail.getAddressId()));
-        order.setUsername(username);
+        order.setAddress(addressService.getAddress(cart.getAddressId()));
+        order.setUsername(cart.getUsername());
         order.setOrderStatus(statusRepository.findById(1l)
                 .orElseThrow(() -> new ResourceNotFoundException("Статус не найден")));
         order.setTotalPrice(cart.getTotalPrice());
-        order.setPhone(orderDetail.getPhone());
+        order.setPhone(cart.getPhone());
         List<OrderItem> orderItems = getItemsFromCart(cart, order);
         order.setItems(orderItems);
         orderRepository.save(order);
-        //restTemplate.postForObject("http://localhost:8190/cart/api/v1/cart/clear",cartMap,String.class);
     }
 
     public void deleteOrderById(Long id) {

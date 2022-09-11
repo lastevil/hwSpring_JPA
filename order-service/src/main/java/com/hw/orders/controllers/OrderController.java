@@ -5,7 +5,6 @@ import com.hw.orders.dto.OrderItemDto;
 import com.hw.orders.services.AddressService;
 import com.hw.orders.services.OrderService;
 import com.hw.orders.dto.AddressDto;
-import com.hw.orders.dto.OrderDetailsDto;
 import com.hw.orders.dto.OrderDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -52,10 +51,5 @@ public class OrderController {
     @DeleteMapping("/{id}")
     public void deleteOrder(@PathVariable Long id){
             orderService.deleteOrderById(id);
-    }
-
-    @PostMapping("/{cartName}")
-    public void addOrder(@PathVariable String cartName, @RequestBody OrderDetailsDto orderDetailsDto, @RequestHeader String username) throws JsonProcessingException {
-        orderService.createOrder(orderDetailsDto, cartName, username);
     }
 }

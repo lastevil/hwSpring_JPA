@@ -6,7 +6,6 @@ import com.hw.spring.cart.services.CartService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -91,23 +90,4 @@ public class CartServiceTest {
         Assertions.assertEquals(testCart.getTotalProductsCount(),1);
         Assertions.assertEquals(testCart.getProducts().get(0).getProductId(),productDto2.getId());
     }
-
-    @Test
-    public void cacheTest(){
-        ProductDto productDto1 = new ProductDto(1l,"test_product",20);
-        Mockito.doReturn(productDto1).when(restTemplate).getForObject(PRODUCT_SERVICE_URL+"/"+1,ProductDto.class);
-        //не кэшируется 8раз
-        cartService.addProductByIdToCart(1l,CARTNAME);
-        cartService.addProductByIdToCart(1l,CARTNAME);
-        cartService.addProductByIdToCart(1l,CARTNAME);
-        cartService.addProductByIdToCart(1l,CARTNAME);
-        cartService.addProductByIdToCart(1l,CARTNAME);
-        cartService.addProductByIdToCart(1l,CARTNAME);
-        cartService.addProductByIdToCart(1l,CARTNAME);
-        cartService.addProductByIdToCart(1l,CARTNAME);
-        //
-        Mockito.verify(restTemplate,Mockito.times(8)).getForObject(ArgumentMatchers.eq(PRODUCT_SERVICE_URL+"/"+1),ArgumentMatchers.eq(ProductDto.class));
-
-    }
-
 }
