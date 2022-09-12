@@ -1,6 +1,7 @@
 package com.hw.spring.cart.test;
 
-import com.hw.spring.cart.dto.ProductDto;
+
+import com.hw.constans.dto.ProductDto;
 import com.hw.spring.cart.models.Cart;
 import com.hw.spring.cart.services.CartService;
 import org.junit.jupiter.api.Assertions;

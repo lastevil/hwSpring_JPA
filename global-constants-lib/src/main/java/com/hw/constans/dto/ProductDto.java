@@ -1,4 +1,4 @@
-package com.hw.market.dto;
+package com.hw.constans.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

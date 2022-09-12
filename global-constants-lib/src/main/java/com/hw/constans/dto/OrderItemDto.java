@@ -1,4 +1,4 @@
-package com.hw.spring.cart.dto;
+package com.hw.constans.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

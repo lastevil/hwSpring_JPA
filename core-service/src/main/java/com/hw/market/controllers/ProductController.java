@@ -1,7 +1,7 @@
 package com.hw.market.controllers;
 
 
-import com.hw.market.dto.ProductDto;
+import com.hw.constans.dto.ProductDto;
 import com.hw.market.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

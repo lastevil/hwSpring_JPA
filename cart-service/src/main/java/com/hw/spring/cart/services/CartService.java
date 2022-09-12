@@ -1,6 +1,6 @@
 package com.hw.spring.cart.services;
 
-import com.hw.spring.cart.dto.ProductDto;
+import com.hw.constans.dto.ProductDto;
 import com.hw.spring.cart.models.Cart;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -35,33 +35,31 @@ public class CartService {
     }
 
     @CachePut(value = "Cart", key = "#cartName")
-    public Cart clearCart(String cartName) {
+    public Cart clearCart(String cartName){
         Cart cart = getCurrentCart(cartName);
         cart.clear();
         return cart;
     }
 
-
     @CachePut(value = "Cart", key = "#cartName")
     public Cart addProductByIdToCart(Long id, String cartName) {
         Cart cart = getCurrentCart(cartName);
-        ProductDto product = restTemplate.getForObject(PRODUCT_SERVICE_URL + "/" + id, ProductDto.class);
+        ProductDto product = restTemplate.getForObject(PRODUCT_SERVICE_URL+"/"+id,ProductDto.class);
         cart.addProduct(product);
         return cart;
     }
 
     @CachePut(value = "Cart", key = "#cartName")
-    public Cart removeOneProductByIdFromCart(Long id, String cartName) {
+    public Cart removeOneProductByIdFromCart(Long id, String cartName){
         Cart cart = getCurrentCart(cartName);
-        ProductDto product = restTemplate.getForObject(PRODUCT_SERVICE_URL + "/" + id, ProductDto.class);
+        ProductDto product = restTemplate.getForObject(PRODUCT_SERVICE_URL+"/"+id,ProductDto.class);
         cart.removeOneProduct(product);
         return cart;
     }
-
     @CachePut(value = "Cart", key = "#cartName")
-    public Cart removeAllProductByIdFromCart(Long id, String cartName) {
+    public Cart removeAllProductByIdFromCart(Long id, String cartName){
         Cart cart = getCurrentCart(cartName);
-        ProductDto product = restTemplate.getForObject(PRODUCT_SERVICE_URL + "/" + id, ProductDto.class);
+        ProductDto product = restTemplate.getForObject(PRODUCT_SERVICE_URL+"/"+id,ProductDto.class);
         cart.removeAllProducts(product);
         return cart;
     }

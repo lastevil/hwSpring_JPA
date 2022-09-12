@@ -1,6 +1,7 @@
 package com.hw.market.converters;
 
-import com.hw.market.dto.ProductDto;
+
+import com.hw.constans.dto.ProductDto;
 import com.hw.market.entitys.Product;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;

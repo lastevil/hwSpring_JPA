@@ -1,4 +1,4 @@
-package com.hw.orders.exceptions;
+package com.hw.constans.exceptoins;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

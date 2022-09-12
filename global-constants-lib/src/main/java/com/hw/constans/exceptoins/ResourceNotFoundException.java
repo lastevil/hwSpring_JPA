@@ -1,4 +1,4 @@
-package com.hw.orders.exceptions;
+package com.hw.constans.exceptoins;
 
 public class ResourceNotFoundException extends RuntimeException{
     public ResourceNotFoundException(String s){

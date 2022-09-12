@@ -1,25 +1,19 @@
 package com.hw.orders.services;
 
+import com.hw.constans.dto.OrderItemDto;
+import com.hw.constans.exceptoins.ResourceNotFoundException;
 import com.hw.orders.converters.OrderConverter;
 import com.hw.orders.converters.OrderItemConverter;
-import com.hw.orders.dto.CartDto;
 import com.hw.orders.dto.OrderDto;
-import com.hw.orders.dto.OrderItemDto;
 import com.hw.orders.entitys.Order;
-import com.hw.orders.entitys.OrderItem;
 import com.hw.orders.entitys.OrderStatus;
-import com.hw.orders.exceptions.ResourceNotFoundException;
 import com.hw.orders.repositorys.OrderRepository;
 import com.hw.orders.repositorys.StatusRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -53,20 +47,7 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
-    @KafkaListener(topics = "Cart")
-    public void createOrder(CartDto cart){
-        Order order = new Order();
-        order.setAddress(addressService.getAddress(cart.getAddressId()));
-        order.setUsername(cart.getUsername());
-        order.setOrderStatus(statusRepository.findById(1l)
-                .orElseThrow(() -> new ResourceNotFoundException("Статус не найден")));
-        order.setTotalPrice(cart.getTotalPrice());
-        order.setPhone(cart.getPhone());
-        List<OrderItem> orderItems = getItemsFromCart(cart, order);
-        order.setItems(orderItems);
-        orderRepository.save(order);
-    }
+
 
     public void deleteOrderById(Long id) {
         if (notPayingOrder(id)) {
@@ -74,17 +55,7 @@ public class OrderService {
         }
     }
 
-    private List<OrderItem> getItemsFromCart(CartDto cart, Order order) {
-        return cart.getProducts().stream().map(o -> {
-            OrderItem orderItem = new OrderItem();
-            orderItem.setOrder(order);
-            orderItem.setQuantity(o.getQuantity());
-            orderItem.setPricePerProduct(o.getPricePerProduct());
-            orderItem.setPrice(o.getPrice());
-            orderItem.setProductTitle(o.getTitle());
-            return orderItem;
-        }).collect(Collectors.toList());
-    }
+
 
     private boolean notPayingOrder(Long id) {
         return orderRepository.findById(id)

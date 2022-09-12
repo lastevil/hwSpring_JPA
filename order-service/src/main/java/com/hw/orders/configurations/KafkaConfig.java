@@ -1,7 +1,8 @@
 package com.hw.orders.configurations;
 
-import com.hw.orders.dto.CartDto;
+import com.hw.constans.dto.CartDto;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.common.serialization.LongDeserializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +26,7 @@ public class KafkaConfig {
         Map<String, Object> produce = new HashMap<>();
         produce.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, server);
         produce.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        produce.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, LongDeserializer.class);
         produce.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
         produce.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
         return produce;
