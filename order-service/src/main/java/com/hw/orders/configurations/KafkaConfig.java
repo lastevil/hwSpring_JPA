@@ -6,6 +6,7 @@ import org.apache.kafka.common.serialization.LongDeserializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
@@ -16,33 +17,30 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
+@EnableKafka
 public class KafkaConfig {
-    @Value("{spring.kafka.bootstrap-servers}")
+    @Value("${spring.kafka.bootstrap-servers}")
     String server;
-    @Value("{spring.kafka.consumer.group-id}")
+    @Value("${spring.kafka.consumer.group-id}")
     String groupId;
+
+
     @Bean
     public Map<String, Object> consumerConfig() {
         Map<String, Object> produce = new HashMap<>();
         produce.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, server);
-        produce.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
         produce.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, LongDeserializer.class);
+        produce.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
         produce.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
         produce.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
         return produce;
-    }
-    @Bean
-    public JsonDeserializer jsonDeserializer(){
-        JsonDeserializer jsonDeserializer = new JsonDeserializer();
-        jsonDeserializer.addTrustedPackages("*");
-        return jsonDeserializer;
     }
     @Bean
     public ConsumerFactory<Long, CartDto> consumerFactory() {
         return new DefaultKafkaConsumerFactory<>(consumerConfig());
     }
     @Bean
-    public KafkaListenerContainerFactory<?> containerFactory(){
+    public KafkaListenerContainerFactory<?> userKafkaContainerFactory(){
         ConcurrentKafkaListenerContainerFactory<Long,CartDto> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         return factory;

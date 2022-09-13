@@ -23,7 +23,7 @@ public class OrderConsumer {
 
 
     @Transactional
-    @KafkaListener(topics = "Cart")
+    @KafkaListener(topics = "Cart", containerFactory = "userKafkaContainerFactory")
     public void createOrder(CartDto cart){
         Order order = new Order();
         order.setAddress(addressService.getAddress(cart.getAddressId()));

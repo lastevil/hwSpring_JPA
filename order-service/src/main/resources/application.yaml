@@ -5,6 +5,10 @@ server:
 spring:
   application:
     name: order-service
+  kafka:
+    bootstrap-servers: "localhost:9092"
+    consumer:
+      group-id: "1"
   datasource:
     url: jdbc:postgresql://localhost:5432/order
     username: postgres
@@ -15,10 +19,6 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-  kafka:
-    consumer:
-      group-id: "1"
-    bootstrap-servers: localhost:9092
   eureka:
     instance:
       hostname: localhost
