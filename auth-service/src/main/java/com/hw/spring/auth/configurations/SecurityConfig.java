@@ -3,6 +3,7 @@ package com.hw.spring.auth.configurations;
 
 import com.hw.spring.auth.configurations.filters.JwtRequestFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @RequiredArgsConstructor
 @EnableWebSecurity
+@EnableEurekaClient
 @PropertySource("classpath:secret.properties")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 

@@ -2,6 +2,13 @@ server:
   port: 5555
 
 spring:
+  eureka:
+    instance:
+      hostname: localhost
+    client:
+      serviceUrl:
+        defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+        fetchRegistry: false
   application:
     name: gateway-service
   cloud:
@@ -15,8 +22,8 @@ spring:
               - POST
             allowedHeaders: "*"
       routes:
-        - id: core-service
-          uri: http://localhost:8189/
+        - id: market-service
+          uri: http://market-sevice/
           predicates:
             - Path=/gateway/**
           filters:
@@ -24,7 +31,7 @@ spring:
             - PrefixPath=/market
             - JwtAuthFilter
         - id: cart-service
-          uri: http://localhost:8170/
+          uri: http://cart-service/
           predicates:
             - Path=/cart/**
           filters:
@@ -32,7 +39,7 @@ spring:
             - PrefixPath=/cart
             - JwtAuthFilter
         - id: auth-service
-          uri: http://localhost:9000/
+          uri: http://auth-service/
           predicates:
             - Path=/auth/**
           filters:
@@ -40,7 +47,7 @@ spring:
             - PrefixPath=/auth
             - JwtAuthFilter
         - id: order-service
-          uri: http://localhost:8191/
+          uri: http://order-service/
           predicates:
             - Path=/orders/**
           filters:

@@ -3,6 +3,8 @@ server:
   servlet:
     context-path: /market
 spring:
+  application:
+    name: market-service
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
@@ -13,3 +15,10 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  eureka:
+    instance:
+      hostname: localhost
+    client:
+      serviceUrl:
+        defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+        fetchRegistry: false
