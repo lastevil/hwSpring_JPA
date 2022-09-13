@@ -39,7 +39,7 @@ public class CartConverterTest {
 
         Cart cart = cartService.getCurrentCart(CARTNAME);
 
-        CartDto cartDto =cartConverter.fromCart(cart,new OrderDetailsDto(),null);
+        CartDto cartDto =cartConverter.fromCart(cart);
 
         Assertions.assertEquals(cart.getTotalPrice(),cartDto.getTotalPrice());
         Assertions.assertEquals(cart.getProducts().size(),cartDto.getProducts().size());

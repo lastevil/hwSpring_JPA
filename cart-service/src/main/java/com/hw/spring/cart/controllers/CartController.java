@@ -1,10 +1,15 @@
 package com.hw.spring.cart.controllers;
 
+
 import com.hw.constans.dto.CartDto;
 import com.hw.spring.cart.converters.CartConverter;
+import com.hw.spring.cart.dto.OrderDetailsDto;
 import com.hw.spring.cart.services.CartService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -43,6 +48,11 @@ public class CartController {
     @PostMapping("/productCount")
     public Integer getProductCountInCart(@RequestBody String cartName) {
         return service.getCurrentCart(cartName).getTotalProductsCount();
+    }
+
+    @PostMapping("/createOrder/{cartName}")
+    public void createOrder(@PathVariable String cartName, @RequestBody OrderDetailsDto orderDetailsDto, @RequestHeader String username) {
+        service.createOrder(cartName,orderDetailsDto,username);
     }
 
 }

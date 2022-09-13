@@ -23,7 +23,7 @@ spring:
             allowedHeaders: "*"
       routes:
         - id: market-service
-          uri: http://market-sevice/
+          uri: lb://market-service/
           predicates:
             - Path=/gateway/**
           filters:
@@ -31,7 +31,7 @@ spring:
             - PrefixPath=/market
             - JwtAuthFilter
         - id: cart-service
-          uri: http://cart-service/
+          uri: lb://cart-service/
           predicates:
             - Path=/cart/**
           filters:
@@ -39,7 +39,7 @@ spring:
             - PrefixPath=/cart
             - JwtAuthFilter
         - id: auth-service
-          uri: http://auth-service/
+          uri: lb://auth-service/
           predicates:
             - Path=/auth/**
           filters:
@@ -47,7 +47,7 @@ spring:
             - PrefixPath=/auth
             - JwtAuthFilter
         - id: order-service
-          uri: http://order-service/
+          uri: lb://order-service/
           predicates:
             - Path=/orders/**
           filters:
