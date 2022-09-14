@@ -2,6 +2,8 @@ package com.hw.spring.cart.configurations;
 
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 import com.hw.constans.dto.CartDto;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -16,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
+@EnableKafka
 public class KafkaConfig {
     @Value("${spring.kafka.bootstrap-servers}")
     String server;
