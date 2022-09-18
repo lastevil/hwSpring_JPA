@@ -1,14 +1,20 @@
 package com.hw.constans.dto;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 public class OrderItemDto {
+    @Schema(description = "id продукта", example = "2")
     private Long productId;
+    @Schema(description = "Наименование продукта",example = "Печенье")
     private String title;
+    @Schema(description = "Колличество продуктов",example = "2")
     private Integer quantity;
+    @Schema(description = "Стоимость одного продукта",example = "50")
     private Integer pricePerProduct;
+    @Schema(description = "Стоимость всех подуктов",example = "100")
     private Integer price;
 
     public OrderItemDto(ProductDto product){

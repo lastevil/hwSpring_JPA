@@ -1,4 +1,4 @@
-package com.hw.spring.auth.dto;
+package com.hw.spring.auth.dto.jwt;
 
 import lombok.Data;
 
