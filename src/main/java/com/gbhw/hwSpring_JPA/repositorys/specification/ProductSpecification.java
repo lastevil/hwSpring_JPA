@@ -1,9 +1,8 @@
 package com.gbhw.hwSpring_JPA.repositorys.specification;
-import com.gbhw.hwSpring_JPA.models.Product;
+import com.gbhw.hwSpring_JPA.entitys.Product;
 import org.springframework.data.jpa.domain.Specification;
 
 public class ProductSpecification {
-
     public static Specification<Product> coastGreaterThenOrElseThen(Integer coast) {
         return ((root, query, criteriaBuilder) -> criteriaBuilder.greaterThanOrEqualTo(root.get("coast") , coast));
     }

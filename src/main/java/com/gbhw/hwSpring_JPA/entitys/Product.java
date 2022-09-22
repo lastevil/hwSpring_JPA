@@ -1,4 +1,4 @@
-package com.gbhw.hwSpring_JPA.models;
+package com.gbhw.hwSpring_JPA.entitys;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,6 +8,7 @@ import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "products")
 public class Product {
@@ -17,8 +18,6 @@ public class Product {
     private Long id;
     @Column(name = "title")
     private String title;
-    @Column(name = "coast")
-    private Integer coast;
-    public Product(String title, Integer coast) {
-    }
+    @Column(name = "price")
+    private Integer price;
 }

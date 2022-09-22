@@ -1,66 +1,61 @@
 <!DOCTYPE html>
 
-<html ng-app="app">
+<html ng-app="store-front">
 
 <head>
     <meta charset="utf-8">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
-    <script src="scrypt/index.js"></script>
-    <script src="css/style.css"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.11/ngStorage.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular-route.min.js"></script>
 
-    <title>Каталог продуктов</title>
 </head>
 <body>
 <div class="container" ng-controller="indexController">
-    <h3>Каталог продуктов</h3>
-    <label class="form-label">Фильтр цены</label>
-        <form novalidate ng-submit="findBetween()">
-            <div class="category" style="display: inline-flex">
-                <input id="minField" class="form-control" style="margin-left: 5px" type="number" placeholder="Минимум"
-                       ng-model="range.min">
-                <input id="maxField" class="form-control"  style="margin-left: 5px" type="number" placeholder="Максимум"
-                       ng-model="range.max">
-                <button style="margin-left: 5px" type="submit" class="btn btn-primary">Применить</button>
-                <button style="margin-left: 5px" class="btn btn-primary" ng-click="clearFormMinMax()" type="reset">Oтменить</button>
-            </div>
-        </form>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                </li class="nav-item">
+                <a ng-show="isUserLoggedIn()" class="nav-link" href="#!/order">Мои заказы</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#!/cart">Корзина ({{cartCount}})</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#!/store">Каталог товаров</a>
+                </li>
+                <li class="nav-item" ng-show="!isUserLoggedIn()">
+                    <form class="align-middle" ng-submit="tryToAuth()">
+                        <div class="input-group input-group-sm" style="padding: 4px;">
+                            <input id="navLoginField" class="form-control" ng-model="user.username" type="text"
+                                   aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
 
-    <br>
-    <table class="table table-hover" cellpadding="0" cellspacing="0">
-        <tr>
-            <td>Продукт</td>
-            <td>Цена</td>
-            <td></td>
-        </tr>
-        <tbody>
-        <tr ng-repeat="p in productList.content">
-            <td>{{p.title}}</td>
-            <td>{{p.coast}}</td>
-            <td>
-                <button class="btn btn-danger" ng-click="deleteProduct(p.id)">Удалить</button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-        <div class="btn-group me-2" role="group" ng-repeat="i in countPage">
-            <button style="margin-left: 2px" type="button" class="btn btn-outline-primary" ng-click="setCurrentPage(i)">{{i}}</button>
-        </div>
-    </div>
+                            <input id="navPasswordField" class="form-control" ng-model="user.password" type="password"
+                                   aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;">
 
-    <label>Добавить продукт</label>
-    <form novalidate ng-submit="newProduct()">
-        <div class="category" style="display: inline-flex">
-            <input class="form-control" type="text" placeholder="Название" ng-model="newProd.title">
-            <input style="margin-left: 5px" class="form-control" type="number" placeholder="Цена"
-                   ng-model="newProd.coast">
-            <button style="margin-left: 5px" type="submit" class="btn btn-primary">Добавить</button>
+                            <button id="navLoginSubmit" class="btn btn-outline-warning btn-sm"
+                                    style="margin-left: 10px;" type="submit">Войти
+                            </button>
+                        </div>
+                    </form>
+                </li>
+                <li class="nav-item" ng-show="isUserLoggedIn()" style="padding: 4px;">
+                    <button class="btn btn-outline-secondary btn-sm" ng-click="tryToLogout()">Выйти</button>
+                </li>
+            </ul>
         </div>
-        <p>
-    </form>
+    </nav>
+
+    <ng-view></ng-view>
+    <script src="scrypt/index.js"></script>
+    <script src="store/store.js"></script>
+    <script src="cart/cart.js"></script>
+    <script src="order/order.js"></script>
 </div>
 </body>
 </html>

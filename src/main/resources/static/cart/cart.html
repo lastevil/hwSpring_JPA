@@ -1,0 +1,60 @@
+<h3>Корзина</h3>
+<table class="table table-hover" cellpadding="0" cellspacing="0">
+    <tr>
+        <td>Продукт</td>
+        <td>Цена</td>
+        <td>Колличество</td>
+        <td>Сумма</td>
+    </tr>
+    <tbody>
+    <tr ng-repeat="p in productList.products">
+        <td>{{p.title}}</td>
+        <td>{{p.pricePerProduct}}</td>
+        <td>
+            <button class="btn btn-primary" ng-click="fromCart(p.productId)">-</button>
+            {{p.quantity}}
+            <button class="btn btn-primary" ng-click="addToCart(p.productId)">+</button>
+        </td>
+        <td>{{p.price}}</td>
+        <td>
+            <button class="btn btn-primary" ng-click="AllFromCart(p.productId)">Из корзины</button>
+        </td>
+    </tbody>
+    <tr>
+        <td>Всего товаров:</td>
+        <td>{{productList.totalProductsCount}}</td>
+        <td>Сумма всего:</td>
+        <td><b>{{productList.totalPrice}}</b></td>
+    </tr>
+</table>
+<button style="margin-left: 5px" class="btn btn-primary" ng-click="clear()">Очистить корзину</button>
+<div ng-show="isUserLoggedIn()">
+    <h3>Детали заказа</h3>
+    <form novalidate >
+        <input class="form-control" type="text" placeholder="Номер телефона получателя" ng-model="orderDetailsDto.phone">
+        <br>
+        <div ng-show="checkAddressList()" >
+            <h5>Выберете адресс доставки:</h5>
+            <select class="custom-select" ng-model="orderDetailsDto.addressId">
+                <option selected>Выберите адресс доставки</option>
+                <option ng-repeat="a in addressList" value={{a.id}}>{{a.fullAddress}}</option>
+            </select>
+        </div>
+        <div>
+            <h5>Добавьте адресс:</h5>
+            <form class="form-control form-control-lg" ng-submit="addAddress()">
+                <input class="form-control" type="text" placeholder="Страна" ng-model="address.country"><br>
+                <input class="form-control" type="text" placeholder="Город" ng-model="address.city"><br>
+                <input class="form-control" type="text" placeholder="Улица" ng-model="address.street"><br>
+                <input class="form-control" type="text" placeholder="Дом" ng-model="address.house"><br>
+                <input class="form-control" type="text" placeholder="Квартира" ng-model="address.flat"><br>
+                <input class="form-control" type="text" placeholder="Почтовый индекс" ng-model="address.postIndex"><br>
+            </form>
+            <button id="addressSubmit" class="btn btn-primary" ng-click="addAddress()" type="submit">Добавить адресс
+            </button><br>
+            <br>
+        </div>
+
+    </form>
+    <button style="margin-left: 5px" class="btn btn-primary" ng-click="createOrder()">Оформить заказ</button>
+</div>

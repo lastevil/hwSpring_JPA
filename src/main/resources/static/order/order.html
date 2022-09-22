@@ -1,0 +1,48 @@
+<h3>Мои заказы</h3>
+<div class="accordion" id="accordionExample">
+    <div class="card" ng-repeat="order in ordersList">
+        <div class="card-header" id="headingOne">
+            <h4 class="mb-0">
+                <button class="btn btn-info btn-block text-left" type="button" data-toggle="collapse"
+                        data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"
+                        ng-click="getOrderItems(order.id)">
+                    Заказ номер: {{order.id}}, от {{order.created_at}}. Cтатус заказа: {{order.orderStatus.orderStatus}}
+                </button>
+            </h4>
+        </div>
+        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div class="card-body">
+                Детали заказа:
+                <table class="table table-hover">
+                    <tr>
+                        <td>Продукт</td>
+                        <td>Цена</td>
+                        <td>Колличество</td>
+                        <td>Сумма</td>
+                    </tr>
+                    <tbody>
+                    <tr ng-repeat="item in itemsList">
+                        <td>{{item.title}}</td>
+                        <td>{{item.pricePerProduct}}</td>
+                        <td>{{item.quantity}}</td>
+                        <td>{{item.price}}</td>
+                    </tbody>
+                    <tr>
+                        <td>
+                            <button ng-show="order.orderStatus.id<2" type="button" class="btn btn-danger"
+                                    ng-click="deleteOrder(order.id)">Отменить заказ
+                            </button>
+                        </td>
+                        <td>
+                            <button ng-show="order.orderStatus.id<2" type="button" class="btn btn-danger"
+                                    ng-click="payOrder(order.id)">Оплата заказа
+                            </button>
+                        </td>
+                        <td>Сумма всего:</td>
+                        <td><b>{{order.totalPrice}}</b></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
