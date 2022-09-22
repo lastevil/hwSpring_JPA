@@ -2,20 +2,20 @@ package com.gbhw.hwSpring_JPA.services;
 
 import com.gbhw.hwSpring_JPA.models.Product;
 import com.gbhw.hwSpring_JPA.repositorys.ProductRepository;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import com.gbhw.hwSpring_JPA.repositorys.specification.ProductSpecification;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class ProductService {
     ProductRepository productRepository;
 
-    public ProductService(ProductRepository productRepository){
-        this.productRepository=productRepository;
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
     }
+
     public Product getProductById(Long id) {
         return productRepository.findById(id).orElseThrow();
     }
@@ -27,22 +27,18 @@ public class ProductService {
         productRepository.save(a);
     }
 
-    public Page<Product> getAllProducts(Pageable pageable) {
-        return productRepository.findAll(pageable);
-    }
     public void deleteProductById(Long id) {
         productRepository.deleteById(id);
     }
 
-    public List<Product> getProductsBetweenCoast(Integer min, Integer max) {
-        return productRepository.findAllBetweenCoast(min,max);
-    }
-
-    public List<Product> getProductsMoreThenMin(Integer min) {
-        return productRepository.getProductsMoreThenMin(min);
-    }
-
-    public List<Product> getProductsLessThenMax(Integer max) {
-        return productRepository.getProductsLessThenMax(max);
+    public Page<Product> getAllProducts(Integer page, Integer min, Integer max) {
+        Specification<Product> productSpecification = Specification.where(null);
+        if (min != null) {
+            productSpecification = productSpecification.and(ProductSpecification.coastGreaterThenOrElseThen(min));
+        }
+        if (max != null) {
+            productSpecification = productSpecification.and(ProductSpecification.coastLessThenOrElseThen(max));
+        }
+        return productRepository.findAll(productSpecification, PageRequest.of(page-1, 10));
     }
 }
