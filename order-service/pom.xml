@@ -43,6 +43,11 @@
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.qiwi</groupId>
+            <artifactId>bill-payments-java-sdk</artifactId>
+            <version>1.5.0</version>
+        </dependency>
+        <dependency>
             <groupId>com.gbhw</groupId>
             <artifactId>global-costants-lib</artifactId>
             <version>0.0.1-SNAPSHOT</version>

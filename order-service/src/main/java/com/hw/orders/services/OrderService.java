@@ -32,8 +32,6 @@ public class OrderService {
 
     private final StatusRepository statusRepository;
 
-
-
     public List<OrderDto> getUserOrders(String userName) {
         List<Order> myOrders = orderRepository.findAllByUsername(userName);
         List<OrderDto> myOrdersDto = myOrders.stream()
@@ -101,5 +99,9 @@ public class OrderService {
     }
     public void payOrder(Long id) {
         changeOrderStatus(id,2l);
+    }
+
+    public Order findById(Long id){
+        return orderRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Order not found"));
     }
 }
