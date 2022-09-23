@@ -1,4 +1,5 @@
 <h3>Мои заказы</h3>
+<script src='https://oplata.qiwi.com/popup/v1.js'></script>
 <div class="accordion" id="accordionExample">
     <div class="card" ng-repeat="order in ordersList">
         <div class="card-header" id="headingOne">
@@ -6,7 +7,7 @@
                 <button class="btn btn-info btn-block text-left" type="button" data-toggle="collapse"
                         data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"
                         ng-click="getOrderItems(order.id)">
-                    Заказ номер: {{order.id}}, от {{order.created_at}}. Cтатус заказа: {{order.orderStatus.orderStatus}}
+                    Заказ номер: {{order.id}}, от {{order.created_at}}. Сумма заказа: {{order.totalPrice}} Cтатус заказа: {{order.orderStatus.orderStatus}}
                 </button>
             </h4>
         </div>
@@ -38,8 +39,7 @@
                                     ng-click="payOrder(order.id)">Оплата заказа
                             </button>
                         </td>
-                        <td>Сумма всего:</td>
-                        <td><b>{{order.totalPrice}}</b></td>
+                        <td><b></b></td>
                     </tr>
                 </table>
             </div>

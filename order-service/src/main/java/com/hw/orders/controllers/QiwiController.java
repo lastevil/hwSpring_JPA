@@ -1,6 +1,7 @@
 package com.hw.orders.controllers;
 
 import com.hw.orders.dto.QiwiResponse;
+import com.hw.orders.services.OrderService;
 import com.hw.orders.services.QiwiService;
 import com.qiwi.billpayments.sdk.client.BillPaymentClient;
 import com.qiwi.billpayments.sdk.client.BillPaymentClientFactory;
@@ -29,23 +30,24 @@ public class QiwiController {
     private BillPaymentClient client = BillPaymentClientFactory.createDefault(secret);
 
     private final QiwiService qiwiService;
-
-    //Добавить статусы "Оплачен\не оплачен" в наш Ордер
-    // В зависимости от успеха операции, менять этот статус
-    // Оплаченные заказы не долны быть оплачены дважды
+    private final OrderService orderService;
 
     @GetMapping("/create/{orderId}")
     public QiwiResponse createOrder(@PathVariable Long orderId) throws URISyntaxException {
-        BillResponse response = client.createBill(qiwiService.createOrderRequest(orderId));
-        log.info("resp = {}", response);
-        return new QiwiResponse(response.getPayUrl(), response.getBillId());
+        if (orderService.getOrderStatus(orderId) < 2) {
+            BillResponse response = client.createBill(qiwiService.createOrderRequest(orderId));
+            log.info("resp = {}", response);
+            return new QiwiResponse(response.getPayUrl(), response.getBillId());
+        }
+        else
+            return null;
     }
 
     @PostMapping("/capture/{billId}")
     public ResponseEntity<?> captureOrder(@PathVariable String billId) throws IOException {
         BillResponse response = client.getBillInfo(billId);
-        if("COMPLETED".equals(response.getStatus())) {
-            //ToDo сделать обработку статуса
+        if ("COMPLETED".equals(response.getStatus())) {
+            orderService.changeOrderStatus(Long.valueOf(response.getComment()), 2l);
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

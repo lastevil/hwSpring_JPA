@@ -40,11 +40,7 @@ public class OrderController {
     public List<OrderDto> getOrders(@RequestHeader String username){
         return orderService.getUserOrders(username);
     }
-    @Operation(summary = "метод оплаты заказа")
-    @PostMapping("/pay/{id}")
-    public void payOrder(@PathVariable Long id){
-        orderService.payOrder(id);
-    }
+
     @Operation(summary = "метод получения продуктов заказа")
     @GetMapping("/{id}")
     public List<OrderItemDto> getOrderItems(@PathVariable Long id){
