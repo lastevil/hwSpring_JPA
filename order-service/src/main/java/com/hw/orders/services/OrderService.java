@@ -60,6 +60,7 @@ public class OrderService {
                 .getId() < 2;
     }
 
+    @Transactional
     public void changeOrderStatus(Long orderId, Long statusId) {
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Заказ не существует"));
         OrderStatus status = statusRepository.findById(statusId).orElseThrow(() -> new ResourceNotFoundException("Неверный статус заказа"));
@@ -67,8 +68,8 @@ public class OrderService {
         orderRepository.save(order);
     }
 
-    @Transactional
     @KafkaListener(topics = "Cart", containerFactory = "userKafkaContainerFactory")
+    @Transactional
     public void createOrder(CartDto cart) {
         Order order = new Order();
         order.setAddress(addressService.getAddress(cart.getAddressId()));

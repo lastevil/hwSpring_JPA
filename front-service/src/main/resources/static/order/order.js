@@ -17,18 +17,23 @@ angular.module('store-front').controller('orderController', function ($scope, $h
     $scope.payOrder = function (id) {
         $http.get('http://localhost:5555/orders/api/v1/qiwi/create/' + id)
             .then(function (response) {
-                $scope.billid = response.data.billid;
+                $scope.billId = response.data.billId;
                 params = {
-                    payUrl: response.data.responseUrl,
-                    customFields: {
-                        themeCode: "Maksym-GeLno-j5g0"
-                    }
+                    payUrl: response.data.responseUrl
                 }
                 QiwiCheckout.openInvoice(params)
                     .then(function (onFullField) {
-                        $http.post('http://localhost:5555/orders/api/v1/qiwi/capture/' + $scope.billid)
+                        $http({
+                            url: 'http://localhost:5555/orders/api/v1/qiwi/capture/',
+                            method: 'POST',
+                            data: {
+                                orderId: id,
+                                billId: $scope.billId
+                            }
+                        })
                     })
                     .then(function (onRejection) {
+                        console.info('что-то пошло не так....');
                         $scope.getOrders();
                     });
 
