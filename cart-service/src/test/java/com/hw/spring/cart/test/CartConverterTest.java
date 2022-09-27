@@ -1,9 +1,9 @@
 package com.hw.spring.cart.test;
 
-import com.hw.constans.dto.CartDto;
-import com.hw.constans.dto.ProductDto;
+import com.hw.spring.cart.api.MarketApi;
 import com.hw.spring.cart.converters.CartConverter;
-import com.hw.spring.cart.dto.OrderDetailsDto;
+import com.hw.spring.cart.dto.CartDto;
+import com.hw.spring.cart.dto.ProductDto;
 import com.hw.spring.cart.models.Cart;
 import com.hw.spring.cart.services.CartService;
 import org.junit.jupiter.api.Assertions;
@@ -22,7 +22,7 @@ public class CartConverterTest {
     private CartConverter cartConverter;
 
     @MockBean
-    private RestTemplate restTemplate;
+    private MarketApi marketApi;
     private static final String CARTNAME ="Test";
     private static final String PRODUCT_SERVICE_URL = "http://localhost:8189/market/api/v1/products";
 
@@ -30,8 +30,8 @@ public class CartConverterTest {
     public void converterTest(){
         ProductDto productDto1 = new ProductDto(1l,"test_product",20);
         ProductDto productDto2 = new ProductDto(2l,"test_product",30);
-        Mockito.doReturn(productDto1).when(restTemplate).getForObject(PRODUCT_SERVICE_URL+"/"+1,ProductDto.class);
-        Mockito.doReturn(productDto2).when(restTemplate).getForObject(PRODUCT_SERVICE_URL+"/"+2,ProductDto.class);
+        Mockito.doReturn(productDto1).when(marketApi).getProductById(1l);
+        Mockito.doReturn(productDto2).when(marketApi).getProductById(2l);
 
         cartService.addProductByIdToCart(1l,CARTNAME);
         cartService.addProductByIdToCart(1l,CARTNAME);

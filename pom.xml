@@ -11,7 +11,6 @@
         <module>cart-service</module>
         <module>order-service</module>
         <module>discovery</module>
-        <module>global-constants-lib</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

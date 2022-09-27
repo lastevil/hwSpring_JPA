@@ -1,7 +1,8 @@
 package com.hw.spring.cart.test;
 
 
-import com.hw.constans.dto.ProductDto;
+import com.hw.spring.cart.api.MarketApi;
+import com.hw.spring.cart.dto.ProductDto;
 import com.hw.spring.cart.models.Cart;
 import com.hw.spring.cart.services.CartService;
 import org.junit.jupiter.api.Assertions;
@@ -11,7 +12,6 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.web.client.RestTemplate;
 
 @SpringBootTest
 public class CartServiceTest {
@@ -19,7 +19,7 @@ public class CartServiceTest {
     private CartService cartService;
 
     @MockBean
-    private RestTemplate restTemplate;
+    private MarketApi marketApi;
     private static final String CARTNAME ="Test";
     private static final String PRODUCT_SERVICE_URL = "http://localhost:8189/market/api/v1/products";
 
@@ -35,7 +35,7 @@ public class CartServiceTest {
     @Test
     public void addProductTest(){
         ProductDto productDto = new ProductDto(1l,"test_product",20);
-        Mockito.doReturn(productDto).when(restTemplate).getForObject(PRODUCT_SERVICE_URL+"/"+1,ProductDto.class);
+        Mockito.doReturn(productDto).when(marketApi).getProductById(1l);
 
         cartService.addProductByIdToCart(1l,CARTNAME);
 
@@ -57,8 +57,8 @@ public class CartServiceTest {
     public void deleteProductTest(){
         ProductDto productDto1 = new ProductDto(1l,"test_product",20);
         ProductDto productDto2 = new ProductDto(2l,"test_product",30);
-        Mockito.doReturn(productDto1).when(restTemplate).getForObject(PRODUCT_SERVICE_URL+"/"+1,ProductDto.class);
-        Mockito.doReturn(productDto2).when(restTemplate).getForObject(PRODUCT_SERVICE_URL+"/"+2,ProductDto.class);
+        Mockito.doReturn(productDto1).when(marketApi).getProductById(1l);
+        Mockito.doReturn(productDto2).when(marketApi).getProductById(2l);
 
         cartService.addProductByIdToCart(1l,CARTNAME);
         cartService.addProductByIdToCart(2l,CARTNAME);
@@ -76,8 +76,8 @@ public class CartServiceTest {
     public void deleteAllProductTest(){
         ProductDto productDto1 = new ProductDto(1l,"test_product",20);
         ProductDto productDto2 = new ProductDto(2l,"test_product",30);
-        Mockito.doReturn(productDto1).when(restTemplate).getForObject(PRODUCT_SERVICE_URL+"/"+1,ProductDto.class);
-        Mockito.doReturn(productDto2).when(restTemplate).getForObject(PRODUCT_SERVICE_URL+"/"+2,ProductDto.class);
+        Mockito.doReturn(productDto1).when(marketApi).getProductById(1l);
+        Mockito.doReturn(productDto2).when(marketApi).getProductById(2l);
 
         cartService.addProductByIdToCart(1l,CARTNAME);
         cartService.addProductByIdToCart(1l,CARTNAME);

@@ -1,7 +1,7 @@
 package com.hw.market.controllers;
 
 
-import com.hw.constans.dto.ProductDto;
+import com.hw.market.dto.ProductDto;
 import com.hw.market.services.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

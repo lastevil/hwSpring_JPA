@@ -1,4 +1,4 @@
-package com.hw.constans.dto;
+package com.hw.market.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

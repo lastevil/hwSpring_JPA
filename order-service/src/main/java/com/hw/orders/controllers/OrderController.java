@@ -1,6 +1,6 @@
 package com.hw.orders.controllers;
 
-import com.hw.constans.dto.OrderItemDto;
+import com.hw.orders.dto.OrderItemDto;
 import com.hw.orders.services.AddressService;
 import com.hw.orders.services.OrderService;
 import com.hw.orders.dto.AddressDto;
