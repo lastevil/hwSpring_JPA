@@ -10,7 +10,7 @@ spring:
     consumer:
       group-id: "1"
   datasource:
-    url: jdbc:postgresql://localhost:5432/order
+    url: jdbc:postgresql://localhost:5434/order
     username: postgres
     password: Qwe123
     driver-class-name: org.postgresql.Driver

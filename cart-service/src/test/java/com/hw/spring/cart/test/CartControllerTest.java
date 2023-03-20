@@ -1,6 +1,6 @@
 package com.hw.spring.cart.test;
 
-import com.hw.constans.dto.ProductDto;
+import com.hw.spring.cart.dto.ProductDto;
 import com.hw.spring.cart.models.Cart;
 import com.hw.spring.cart.services.CartService;
 import org.junit.jupiter.api.Test;
@@ -43,7 +43,6 @@ public class CartControllerTest {
                 .andExpect(jsonPath("$.products[0].title",is(productDto.getTitle())))
                 .andExpect(jsonPath("$.totalPrice").isNumber());
     }
-
 
     @Test
     public void getProductCountTest() throws Exception {

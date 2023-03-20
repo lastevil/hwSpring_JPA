@@ -1,4 +1,4 @@
-package com.hw.constans.exceptoins;
+package com.hw.spring.cart.exceptoins;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

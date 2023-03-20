@@ -11,7 +11,6 @@
         <module>cart-service</module>
         <module>order-service</module>
         <module>discovery</module>
-        <module>global-constants-lib</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -25,7 +24,7 @@
     <name>hwSpring_JPA</name>
     <description>Demo project for Spring Boot</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>18</java.version>
         <spring-cloud.version>2020.0.4</spring-cloud.version>
     </properties>
     <dependencies>

@@ -1,4 +1,4 @@
-package com.hw.constans.exceptoins;
+package com.hw.market.exceptions;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

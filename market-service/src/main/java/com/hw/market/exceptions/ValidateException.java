@@ -1,4 +1,4 @@
-package com.hw.constans.exceptoins;
+package com.hw.market.exceptions;
 
 import java.util.List;
 import java.util.stream.Collectors;

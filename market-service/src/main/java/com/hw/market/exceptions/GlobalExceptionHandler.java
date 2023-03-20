@@ -1,7 +1,4 @@
 package com.hw.market.exceptions;
-
-import com.hw.constans.exceptoins.AppError;
-import com.hw.constans.exceptoins.ValidateException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

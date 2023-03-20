@@ -2,6 +2,7 @@ package com.hw.spring.auth.controllers;
 
 
 import com.hw.spring.auth.aspect.AspectLoging;
+import com.hw.spring.auth.converters.UserConverter;
 import com.hw.spring.auth.dto.jwt.JwtRequest;
 import com.hw.spring.auth.dto.jwt.JwtResponse;
 import com.hw.spring.auth.dto.UserDto;
@@ -28,6 +29,7 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
 
     private final AspectLoging aspectLoging;
+    private final UserConverter userConverter;
 
     private final JwtTokenUtil jwtTokenUtil;
     @Operation(summary = "метод создания токена если верные учетные данные")
@@ -42,6 +44,13 @@ public class AuthController {
         String token = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new JwtResponse(token));
     }
+
+    @Operation(summary = "метод возвращает данные пользователя по нику")
+    @GetMapping("/userInfo/{username}")
+    public UserDto getUserByUsername(@PathVariable String username){
+        return userConverter.fromEntity(userService.findByUsername(username));
+    }
+
     @Operation(summary = "метод регистрации нового пользователя")
     @PostMapping("/reg")
     public ResponseEntity<?> registration(@RequestBody UserDto userDto) {

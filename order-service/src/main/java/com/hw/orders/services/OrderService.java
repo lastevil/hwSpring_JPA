@@ -1,21 +1,20 @@
 package com.hw.orders.services;
 
-import com.hw.constans.dto.CartDto;
-import com.hw.constans.dto.OrderItemDto;
-import com.hw.constans.exceptoins.ResourceNotFoundException;
 import com.hw.orders.converters.OrderConverter;
 import com.hw.orders.converters.OrderItemConverter;
+import com.hw.orders.dto.CartDto;
 import com.hw.orders.dto.OrderDto;
+import com.hw.orders.dto.OrderItemDto;
 import com.hw.orders.entitys.Order;
 import com.hw.orders.entitys.OrderItem;
 import com.hw.orders.entitys.OrderStatus;
+import com.hw.orders.exceptions.ResourceNotFoundException;
 import com.hw.orders.repositorys.OrderRepository;
 import com.hw.orders.repositorys.StatusRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,13 +39,12 @@ public class OrderService {
         return myOrdersDto;
     }
 
-    public List<OrderItemDto> getOrderItems(Long orderId){
+    public List<OrderItemDto> getOrderItems(Long orderId) {
         Order order = orderRepository.getById(orderId);
         return order.getItems().stream()
                 .map(orderItemConverter::toOrderItemDto)
                 .collect(Collectors.toList());
     }
-
 
 
     public void deleteOrderById(Long id) {
@@ -55,8 +53,6 @@ public class OrderService {
         }
     }
 
-
-
     private boolean notPayingOrder(Long id) {
         return orderRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("заказа не существует"))
@@ -64,16 +60,17 @@ public class OrderService {
                 .getId() < 2;
     }
 
-    public void changeOrderStatus(Long orderId, Long statusId){
-        Order order = orderRepository.findById(orderId).orElseThrow(()->new ResourceNotFoundException("Заказ не существует"));
-        OrderStatus status = statusRepository.findById(statusId).orElseThrow(()->new ResourceNotFoundException("Неверный статус заказа"));
+    @Transactional
+    public void changeOrderStatus(Long orderId, Long statusId) {
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Заказ не существует"));
+        OrderStatus status = statusRepository.findById(statusId).orElseThrow(() -> new ResourceNotFoundException("Неверный статус заказа"));
         order.setOrderStatus(status);
         orderRepository.save(order);
     }
 
-    @Transactional
     @KafkaListener(topics = "Cart", containerFactory = "userKafkaContainerFactory")
-    public void createOrder(CartDto cart){
+    @Transactional
+    public void createOrder(CartDto cart) {
         Order order = new Order();
         order.setAddress(addressService.getAddress(cart.getAddressId()));
         order.setUsername(cart.getUsername());
@@ -97,11 +94,16 @@ public class OrderService {
             return orderItem;
         }).collect(Collectors.toList());
     }
+
     public void payOrder(Long id) {
-        changeOrderStatus(id,2l);
+        changeOrderStatus(id, 2l);
     }
 
-    public Order findById(Long id){
-        return orderRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Order not found"));
+    public Order findById(Long id) {
+        return orderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+    }
+
+    public int getOrderStatus(Long orderId) {
+        return orderRepository.findStatusIdById(orderId);
     }
 }

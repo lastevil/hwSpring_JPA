@@ -1,6 +1,6 @@
 package com.hw.spring.cart.converters;
 
-import com.hw.constans.dto.CartDto;
+import com.hw.spring.cart.dto.CartDto;
 import com.hw.spring.cart.models.Cart;
 import org.springframework.stereotype.Component;
 

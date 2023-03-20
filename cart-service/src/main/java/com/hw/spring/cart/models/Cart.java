@@ -1,7 +1,7 @@
 package com.hw.spring.cart.models;
 
-import com.hw.constans.dto.OrderItemDto;
-import com.hw.constans.dto.ProductDto;
+import com.hw.spring.cart.dto.OrderItemDto;
+import com.hw.spring.cart.dto.ProductDto;
 import lombok.Data;
 import org.springframework.cache.CacheManager;
 

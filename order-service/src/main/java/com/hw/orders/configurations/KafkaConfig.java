@@ -1,6 +1,6 @@
 package com.hw.orders.configurations;
 
-import com.hw.constans.dto.CartDto;
+import com.hw.orders.dto.CartDto;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.LongDeserializer;
 import org.springframework.beans.factory.annotation.Value;
