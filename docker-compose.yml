@@ -1,0 +1,149 @@
+version: '3'
+
+services:
+  postgres:
+    container_name: postgres_container
+    domainname: postgres
+    image: postgres:13.3
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "Qwe123"
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    volumes:
+      - ./postgres_init.sql:/docker-entrypoint-initdb.d/postgres_init.sql
+
+  redis:
+    container_name: redis
+    image: 'bitnami/redis:latest'
+    restart: unless-stopped
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "6379:6379"
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:5.4.0
+    container_name: zookeeper
+    restart: unless-stopped
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+    image: confluentinc/cp-kafka:5.4.0
+    container_name: kafka
+    restart: unless-stopped
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29092,PLAINTEXT_HOST://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    depends_on:
+      - zookeeper
+
+  discovery:
+    container_name: discovery
+    build:
+      context: ./discovery
+    restart: unless-stopped
+    ports:
+      - "8761:8761"
+    environment:
+      SERVER_PORT: 8761
+    depends_on:
+      - kafka
+
+  auth-service:
+    container_name: auth_ms
+    build:
+      context: auth-service
+    restart: on-failure
+    ports:
+      - "9000:9000"
+    depends_on:
+      - postgres
+      - discovery
+    environment:
+      SERVER_PORT: 9000
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/
+      SPRING_DATASOURCE_HIKARI_SCHEMA: auth_schema
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: Qwe123
+
+  gateway:
+    container_name: gateway
+    build:
+      context: gateway-service
+    ports:
+      - "5555:5555"
+    environment:
+      SERVER_PORT: 5555
+
+  market-service:
+      container_name: market-ms
+      build:
+        context: market-service
+      ports:
+        - "8189:8189"
+      depends_on:
+        - discovery
+        - postgres
+      restart: on-failure
+      environment:
+        SERVER_PORT: 8189
+        SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/
+        SPRING_DATASOURCE_HIKARI_SCHEMA: market_schema
+        SPRING_DATASOURCE_USERNAME: postgres
+        SPRING_DATASOURCE_PASSWORD: Qwe123
+
+  cart-service:
+    container_name: cart_ms
+    restart: on-failure
+    build:
+      context: cart-service
+    ports:
+      - "8170:8170"
+    depends_on:
+      - redis
+      - auth-service
+      - discovery
+      - gateway
+    environment:
+      SERVER_PORT: 8170
+      SPRING_REDIS_DATABASE: 0
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+
+  order-service:
+    container_name: order_ms
+    restart: on-failure
+    build:
+      context: order-service
+    ports:
+      - "8191:8191"
+    depends_on:
+      - postgres
+      - gateway
+      - discovery
+    environment:
+      SERVER_PORT: 8191
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/
+      SPRING_DATASOURCE_HIKARI_SCHEMA: order_schema
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: Qwe123
+
+  front-service:
+    container_name: front-service
+    build:
+      context: front-service
+    ports:
+      - "3000:3000"
+    environment:
+      SERVER_PORT: 3000

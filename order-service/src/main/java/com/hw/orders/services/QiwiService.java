@@ -9,7 +9,6 @@ import com.qiwi.billpayments.sdk.model.MoneyAmount;
 import com.qiwi.billpayments.sdk.model.in.CreateBillInfo;
 import com.qiwi.billpayments.sdk.model.in.Customer;
 import lombok.RequiredArgsConstructor;
-import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;

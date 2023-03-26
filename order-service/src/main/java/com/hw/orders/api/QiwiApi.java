@@ -11,5 +11,5 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient(value = "PyaInfo",url = "https://api.qiwi.com/partner/bill/v1/bills",configuration = FeignConfig.class)
 public interface QiwiApi {
     @RequestMapping(method = RequestMethod.GET, value = "/{billId}")
-    QiwiBillResponse getUserByUsername(@PathVariable String billId ,@RequestHeader("Authorization") String header);
+    QiwiBillResponse getUserByUsername(@PathVariable(value = "billId") String billId ,@RequestHeader("Authorization") String header);
 }

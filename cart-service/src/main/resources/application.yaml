@@ -1,14 +1,10 @@
 server:
-  port: 8170
   servlet:
     context-path: /cart
 spring:
   application:
     name: cart-service
   redis:
-    database: 0
-    host: localhost
-    port: 6379
     password:
   cache:
     default:
@@ -19,11 +15,11 @@ spring:
   kafka:
     consumer:
       group-id: "1"
-    bootstrap-servers: "localhost:9092"
-  eureka:
-    instance:
-      hostname: localhost
-    client:
-      serviceUrl:
-        defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
-        fetchRegistry: false
+    bootstrap-servers: "kafka:9092"
+eureka:
+  instance:
+    hostname: cart-service
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://discovery:8761/eureka}
+      fetchRegistry: false

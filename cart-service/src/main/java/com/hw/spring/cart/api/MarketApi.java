@@ -9,5 +9,5 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient(value = "market-service/market/api/v1/products", configuration = FeignConfig.class)
 public interface MarketApi {
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
-    ProductDto getProductById(@PathVariable Long id);
+    ProductDto getProductById(@PathVariable(value = "id") Long id);
 }
